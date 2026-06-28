@@ -43,7 +43,7 @@ export default function FAQPage() {
       <Navigation variant="subpage" label="FAQs" />
 
       {/* 2. Structured Layout Space */}
-      <main className="flex-1 flex w-full max-w-[1440px] mx-auto overflow-hidden relative border-t border-zinc-900">
+      <main className="flex-1 flex w-full max-w-[1440px] mx-auto overflow-hidden relative border-t border-zinc-900 mt-16 md:mt-20">
         
         {/* Left Desktop Menu */}
         <FAQSidebar 
