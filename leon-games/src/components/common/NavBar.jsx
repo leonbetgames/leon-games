@@ -165,8 +165,8 @@ export function Navigation({ variant = "discover", label = "" }) {
           </motion.a>
         </div>
 
-        {/* 2. DESKTOP NAVIGATION - Shared layout ID underline */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* 2. NAVIGATION - Visible on small screens for subpage variants */}
+        <nav className={variant === "discover" ? "hidden md:flex items-center gap-1" : "flex items-center gap-1"}>
           {variant === "discover" ? (
             // Render full menu
             NAV_LINKS.map((link, idx) => {

@@ -22,6 +22,23 @@ export default function FAQPage() {
     }
   }, [activeId]);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return undefined;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [isMobileMenuOpen]);
+
   // Handle standard accessibility arrow controls
   useEffect(() => {
     function handleKeyDown(e) {
@@ -38,12 +55,12 @@ export default function FAQPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#070708] text-zinc-100 flex flex-col font-sans antialiased overflow-hidden">
+    <div className="h-screen bg-[#070708] text-zinc-100 flex flex-col font-sans antialiased overflow-hidden">
       {/* 1. Exactly required Navigation Element */}
       <Navigation variant="subpage" label="FAQs" />
 
       {/* 2. Structured Layout Space */}
-      <main className="flex-1 flex w-full max-w-[1440px] mx-auto overflow-hidden relative border-t border-zinc-900 mt-16 md:mt-20">
+      <main className="flex-1 flex w-full max-w-[1440px] mx-auto overflow-hidden relative border-t border-zinc-900 mt-16 md:mt-20 min-h-0">
         
         {/* Left Desktop Menu */}
         <FAQSidebar 

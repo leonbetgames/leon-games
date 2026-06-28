@@ -6,7 +6,7 @@ import { FiChevronRight } from 'react-icons/fi';
 export default function FAQSidebar({ faqData, activeId, setActiveId }) {
   return (
     <aside 
-      className="hidden lg:flex flex-col w-[300px] border-r border-zinc-800 bg-black/40 backdrop-blur-md overflow-y-auto h-full scrollbar-thin scrollbar-thumb-zinc-800"
+      className="hidden lg:flex flex-col w-[300px] border-r border-zinc-800 bg-black/40 backdrop-blur-md overflow-y-auto overflow-x-hidden min-h-0 h-full scrollbar-thin scrollbar-thumb-zinc-800"
       aria-label="FAQ Navigation Sidebar"
     >
       <div className="p-6 border-b border-zinc-800/80">
