@@ -254,7 +254,7 @@ export const termsContent = [
     title: "Modifications and Changes to Terms",
     paragraphs: [
       "Leon Games reserves the right to modify, update, or revise these Terms & Conditions at any time to reflect updates in our games, platform policies, or local regulations. Any changes will become effective immediately upon being published on this page.",
-      "We encourage you to review this page periodically to stay informed about your rights and responsibilities. Your continued use of the platform after any updates are published constitutes your acceptance of the revised Terms."
+      "We encourage you to review this page periodically to stay informed about your rights and responsibilities. Your continued use of the platform after any updates are published constitutes your acceptance of the revised Terms. Last Updated: June 28, 2026"
     ],
     details: [
       {
