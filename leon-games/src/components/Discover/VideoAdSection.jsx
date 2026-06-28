@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { Icons } from "./GeneralVariables/Icons";
+import { Icons } from "../GeneralVariables/Icons";
 
 // --- VIDEO ADVERTISEMENT SECTION (VIBRANT REDESIGN + SCROLL ANIMATED) ---
 function VideoAdSection() {

@@ -1,14 +1,14 @@
-import { Navigation } from "../NavBar";
-import HeroSection from "../HeroSection";
-import { FeaturedGamesSection } from "../FeaturedGamesSection";
-import { HowItWorksSection } from "../HowItWorksSection";
-import { LiveActivitySection } from "../LiveActivitySection";
-import { TrustSection } from "../TrustSection";
-import { PaymentsSection } from "../PaymentsSection";
-import { GrowthSection } from "../GrowthSection";
-import VideoAdSection from "../VideoAdSection";
-import FinalCTASection from "../FinalCTASection";
-import Footer from "../Footer";
+import { Navigation } from "../components/common/NavBar";
+import HeroSection from "../components/Discover/HeroSection";
+import { FeaturedGamesSection } from "../components/Discover/FeaturedGamesSection";
+import { HowItWorksSection } from "../components/Discover/HowItWorksSection";
+import { LiveActivitySection } from "../components/Discover/LiveActivitySection";
+import { TrustSection } from "../components/Discover/TrustSection";
+import { PaymentsSection } from "../components/Discover/PaymentsSection";
+import { GrowthSection } from "../components/Discover/GrowthSection";
+import VideoAdSection from "../components/Discover/VideoAdSection";
+import FinalCTASection from "../components/Discover/FinalCTASection";
+import Footer from "../components/common/Footer";
 
 export default function LeonGamesLanding() {
     return (

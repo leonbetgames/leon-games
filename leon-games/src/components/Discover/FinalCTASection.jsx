@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { Icons } from "./GeneralVariables/Icons";
+import { Icons } from "../GeneralVariables/Icons";
 
 // --- FINAL CTA SECTION ---
 function FinalCTASection() {
