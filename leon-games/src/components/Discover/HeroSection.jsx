@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring, useMotionValue, useTransform } from "framer-motion";
 import { Icons } from "../GeneralVariables/Icons";
-import predictionDuel from "../assets/images/prediction-duel.png";
-import reactionSignal from "../assets/images/reaction-signal.png";
-import penaltyShootout from "../assets/images/penalty-shootout.png";
-import rockPaperScissors from "../assets/images/rock-paper-scissors.png";
-import ticTacToe from "../assets/images/tic-tac-toe.png";
+import reactionSignal from "../../assets/images/reaction-signal.png";
+import predictionDuel from "../../assets/images/prediction-duel.png";
+import penaltyShootout from "../../assets/images/penalty-shootout.png";
+import rockPaperScissors from "../../assets/images/rock-paper-scissors.png";
+import ticTacToe from "../../assets/images/tic-tac-toe.png";
 
 // --- RESPONSIVE ANIMATION VARIANT GENERATOR ---
 // --- ENHANCED RESPONSIVE ANIMATION VARIANT GENERATOR ---

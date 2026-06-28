@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { Icons } from "../GeneralVariables/Icons";
 
-import predictionDuel from "../assets/images/prediction-duel.png";
-import reactionSignal from "../assets/images/reaction-signal.png";
-import penaltyShootout from "../assets/images/penalty-shootout.png";
-import rockPaperScissors from "../assets/images/rock-paper-scissors.png";
-import ticTacToe from "../assets/images/tic-tac-toe.png";
+import predictionDuel from "../../assets/images/prediction-duel.png";
+import reactionSignal from "../../assets/images/reaction-signal.png";
+import penaltyShootout from "../../assets/images/penalty-shootout.png";
+import rockPaperScissors from "../../assets/images/rock-paper-scissors.png";
+import ticTacToe from "../../assets/images/tic-tac-toe.png";
 // --- DESIGN-SAFE GAME DATA CONFIGURATION (VISUALLY ENHANCED) ---
 const GAME_DATA = [
   {

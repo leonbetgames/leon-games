@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import nigeriaVideo from "../assets/videos/nigeria-zoom-out-to-world.mp4";
+import nigeriaVideo from "../../assets/videos/nigeria-zoom-out-to-world.mp4";
 
 // --- GROWTH ROADMAP SECTION (TRANSFORMED FROM WORLDWIDE) ---
 export function GrowthSection() {
