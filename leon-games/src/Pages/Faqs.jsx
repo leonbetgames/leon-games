@@ -1,22 +1,87 @@
-import { Navigation } from "../components/common/Navbar";
+// pages/FAQPage.jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { faqData } from '../components/Faqs/Data'; // Adjust relative file location if needed
+import { Navigation } from '../components/common/NavBar'; // Imports specified Navigation layout exactly
+import FAQSidebar from '../components/Faqs/SideBar';
+import FAQMobileMenu from '../components/Faqs/MobileMenu';
+import FAQContent from '../components/Faqs/ContentPanel';
 
-export default function Faqs() {
+export default function FAQPage() {
+  const [activeId, setActiveId] = useState(1);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const contentScrollRef = useRef(null);
+
+  // Retrieve current active data item
+  const activeFaq = faqData.find((item) => item.id === activeId) || faqData[0];
+
+  // Reset viewport scroll positions when selected article shifts
+  useEffect(() => {
+    if (contentScrollRef.current) {
+      contentScrollRef.current.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [activeId]);
+
+  // Handle standard accessibility arrow controls
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveId((prev) => (prev > 1 ? prev - 1 : faqData.length));
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveId((prev) => (prev < faqData.length ? prev + 1 : 1));
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
-    <div className="bg-[#050505] text-white font-sans antialiased selection:bg-emerald-500/30 selection:text-emerald-400 min-h-screen overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#070708] text-zinc-100 flex flex-col font-sans antialiased overflow-hidden">
+      {/* 1. Exactly required Navigation Element */}
       <Navigation variant="subpage" label="FAQs" />
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">Frequently Asked Questions</h1>
-        <div className="space-y-4">
-          <div className="bg-[#111] p-4 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">What is your return policy?</h2>
-            <p className="text-gray-300">We offer a 30-day return policy for all items.</p>
-          </div>
-          <div className="bg-[#111] p-4 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">How do I track my order?</h2>
-            <p className="text-gray-300">You can track your order using the tracking number provided in your confirmation email.</p>
-          </div>
+
+      {/* 2. Structured Layout Space */}
+      <main className="flex-1 flex w-full max-w-[1440px] mx-auto overflow-hidden relative border-t border-zinc-900">
+        
+        {/* Left Desktop Menu */}
+        <FAQSidebar 
+          faqData={faqData} 
+          activeId={activeId} 
+          setActiveId={setActiveId} 
+        />
+
+        {/* Right Content Stream Viewport */}
+        <div 
+          ref={contentScrollRef}
+          className="flex-1 overflow-y-auto h-full p-4 md:p-8 lg:p-10 outline-none"
+          tabIndex={0}
+          aria-label="FAQ Detail Viewer"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeId}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="h-full"
+            >
+              <FAQContent faq={activeFaq} />
+            </motion.div>
+          </AnimatePresence>
         </div>
+
+        {/* Floating Mobile Trigger Action Menu */}
+        <FAQMobileMenu 
+          faqData={faqData} 
+          activeId={activeId} 
+          setActiveId={setActiveId}
+          isOpen={isMobileMenuOpen}
+          setIsOpen={setIsMobileMenuOpen}
+        />
       </main>
     </div>
   );
-}   
+}
