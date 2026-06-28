@@ -46,7 +46,7 @@ function getInitialActiveSection() {
   return NAV_LINKS.some((link) => link.sectionId === hash) ? hash : null;
 }
 
-export function Navigation() {
+export function Navigation({ variant = "discover", label = "" }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -167,66 +167,99 @@ export function Navigation() {
 
         {/* 2. DESKTOP NAVIGATION - Shared layout ID underline */}
         <nav className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map((link, idx) => {
-            const isActive = activeSection === link.sectionId;
-
-            return (
-              <a
-                key={idx}
-                href={link.href}
-                className={`relative px-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors duration-200 whitespace-nowrap ${
-                  isActive ? "text-white" : "text-neutral-400 hover:text-white"
-                }`}
-                onClick={() => handleSectionSelect(link.sectionId)}
-                onMouseEnter={() => setHoveredIndex(idx)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <span className="relative z-10">{link.label}</span>
-                {(hoveredIndex === idx || isActive) && (
-                  <motion.div
-                    layoutId="nav-underline"
-                    className="absolute inset-0 bg-white/[0.03] border-b-2 border-emerald-500 rounded-sm"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={springTransition}
-                  />
-                )}
-              </a>
-            );
-          })}
+          {variant === "discover" ? (
+            // Render full menu
+            NAV_LINKS.map((link, idx) => {
+              const isActive = activeSection === link.sectionId;
+              return (
+                <a
+                  key={idx}
+                  href={link.href}
+                  className={`relative px-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors duration-200 whitespace-nowrap ${isActive ? "text-white" : "text-neutral-400 hover:text-white"
+                    }`}
+                  onClick={() => handleSectionSelect(link.sectionId)}
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <span className="relative z-10">{link.label}</span>
+                  {(hoveredIndex === idx || isActive) && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute inset-0 bg-white/[0.03] border-b-2 border-emerald-500 rounded-sm"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={springTransition}
+                    />
+                  )}
+                </a>
+              );
+            })
+          ) : (
+            // Render only the current subpage nav link
+            <a
+              href="#"
+              onClick={(e) => e.preventDefault()} // Keeps user on the same page
+              className="relative px-4 py-2 text-xs font-medium uppercase tracking-wider text-white border-b-2 border-emerald-500 rounded-sm"
+            >
+              <span className="relative z-10">{label}</span>
+            </a>
+          )}
         </nav>
 
         {/* 3. CTA CONTROLS - Tactile spring-based interactions */}
         <div className="hidden md:flex items-center gap-4">
-          <motion.button
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.97 }}
-            transition={springTransition}
-            className="relative group overflow-hidden rounded-md bg-[#111] hover:bg-[#151515] text-white border border-white/[0.08] hover:border-emerald-500/30 text-xs font-mono uppercase tracking-widest py-2.5 px-5 transition-colors duration-200"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-            <span className="relative z-10 flex items-center gap-2">
-              Start Match <Icons.ArrowRight />
-            </span>
-          </motion.button>
+          {variant === "discover" ? (
+            <motion.button
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              transition={springTransition}
+              className="relative group overflow-hidden rounded-md bg-[#111] hover:bg-[#151515] text-white border border-white/[0.08] hover:border-emerald-500/30 text-xs font-mono uppercase tracking-widest py-2.5 px-5 transition-colors duration-200"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <span className="relative z-10 flex items-center gap-2">
+                Start Match <Icons.ArrowRight />
+              </span>
+            </motion.button>
+          ) : (
+            <motion.a
+              href="/"
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              transition={springTransition}
+              className="relative group overflow-hidden rounded-md bg-[#111] hover:bg-[#151515] text-white border border-white/[0.08] hover:border-emerald-500/30 text-xs font-mono uppercase tracking-widest py-2.5 px-5 transition-colors duration-200 flex items-center gap-2"
+            >
+              <Icons.ArrowLeft className="w-4 h-4" /> Back
+            </motion.a>
+          )}
         </div>
-
         {/* MOBILE MENU TRIGGER BUTTON */}
+        {/* MOBILE MENU TRIGGER OR BACK BUTTON */}
         <div className="flex md:hidden items-center gap-3">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="w-9 h-9 flex items-center justify-center rounded-md bg-white/[0.02] border border-white/[0.06] text-white hover:text-emerald-400 transition-colors"
-          >
-            {isMobileOpen ? <NavIcons.MenuClose /> : <NavIcons.MenuOpen />}
-          </motion.button>
+          {variant === "discover" ? (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className="w-9 h-9 flex items-center justify-center rounded-md bg-white/[0.02] border border-white/[0.06] text-white hover:text-emerald-400 transition-colors"
+            >
+              {isMobileOpen ? <NavIcons.MenuClose /> : <NavIcons.MenuOpen />}
+            </motion.button>
+          ) : (
+            <motion.a
+              href="/"
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-md bg-white/[0.02] border border-white/[0.06] text-white text-xs font-mono uppercase tracking-wider hover:text-emerald-400 transition-colors"
+            >
+              <Icons.ArrowLeft className="w-3.5 h-3.5" /> Back
+            </motion.a>
+          )}
         </div>
       </motion.header>
 
       {/* 4. PREMIUM MOBILE DRAWER PANEL - Spring transitions & layered blur */}
+      {/* 4. PREMIUM MOBILE DRAWER PANEL */}
       <AnimatePresence>
-        {isMobileOpen && (
+        {variant === "discover" && isMobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -258,9 +291,8 @@ export function Navigation() {
                       animate={{ x: 0, opacity: 1 }}
                       exit={{ x: -10, opacity: 0 }}
                       transition={{ delay: idx * 0.08, type: "spring", stiffness: 150 }}
-                      className={`text-2xl font-bold tracking-tight flex items-center justify-between group py-2 border-b border-white/[0.03] ${
-                        isActive ? "text-emerald-400" : "text-neutral-300 hover:text-emerald-400"
-                      }`}
+                      className={`text-2xl font-bold tracking-tight flex items-center justify-between group py-2 border-b border-white/[0.03] ${isActive ? "text-emerald-400" : "text-neutral-300 hover:text-emerald-400"
+                        }`}
                     >
                       <span>{link.label}</span>
                       <span className={`text-xs font-mono transition-colors ${isActive ? "text-emerald-400" : "text-neutral-600 group-hover:text-emerald-400"}`}>

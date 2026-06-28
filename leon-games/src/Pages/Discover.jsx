@@ -10,7 +10,7 @@ import VideoAdSection from "../components/Discover/VideoAdSection";
 import FinalCTASection from "../components/Discover/FinalCTASection";
 import Footer from "../components/common/Footer";
 
-export default function LeonGamesLanding() {
+export default function Discover() {
     return (
         <div className="bg-[#050505] text-white font-sans antialiased selection:bg-emerald-500/30 selection:text-emerald-400 min-h-screen overflow-x-hidden relative">
             {/* Background Grid Pattern Overlay */}
