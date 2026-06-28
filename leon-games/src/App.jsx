@@ -1,20 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function Dashboard() {
-  return <h1>DASHBOARD</h1>;
-}
+import Discover from "./pages/Discover";
 
-function Discover() {
-  return <h1>DISCOVER</h1>;
-}
-
-export default function App() {
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
         <Route path="/discover" element={<Discover />} />
+        {/*}
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route
+          path="/responsible-gaming"
+          element={<ResponsibleGaming />}
+        />
+        */}
       </Routes>
     </BrowserRouter>
   );
 }
+
+export default App;
