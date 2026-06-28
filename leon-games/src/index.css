@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050505;
+  --color-surface: #0A0A0A;
+  --color-surface-medium: #111111;
+  --color-surface-light: #171717;
+  --color-primary: #22C55E;
+  --color-accent: #00E5FF;
+  --breakpoint-xl2: 84rem; /* Your custom breakpoint fits here */
+
+
+  --animate-marquee: marquee 500s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+}
+html {
+  scroll-behavior: smooth;
+  background-color: #050505;
+}
+
+/* Custom fade mask for the live activity ticker */
+.mask-gradient {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 15%,
+    #000 85%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 15%,
+    #000 85%,
+    transparent
+  );
+}
+
+.stats-slider-container {
+  transform-origin: center center;
+}
+
+@media (max-width: 1023px) {
+  .stats-slider-container {
+    transform: rotate(0deg) !important;
+  }
+}
+
+/* Custom mechanical layout variables */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 9px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(16, 185, 129, 0.3);
+  }
+}
+
+/* Make common interactive/clickable elements use the pointer (hand) cursor */
+a,
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="image"],
+label[role="button"],
+[role="button"],
+[onclick],
+.clickable {
+  cursor: pointer;
+}
+
+/* Respect disabled state for buttons and inputs */
+button:disabled,
+input:disabled {
+  cursor: default;
+}
