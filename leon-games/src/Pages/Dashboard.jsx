@@ -29,6 +29,7 @@ import {
 
 import { GAMES } from "../components/Dashboard/Games";
 import { GlobalHeader } from "../components/Dashboard/Header";
+import { NotificationsDrawer } from "../components/Dashboard/NotificationsDrawer";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -89,6 +90,14 @@ export default function LeonDashboard() {
 
     // User notifications & UI Toast feedback
     const [toastMessage, setToastMessage] = useState(null);
+
+    // --- NOTIFICATIONS STATE SHIFTED TO MAIN DASHBOARD ---
+const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+const [notifications, setNotifications] = useState([
+    { id: 1, type: "match", text: "Chinedu_O sent you a Rock Paper Scissors challenge.", time: "2m ago", unread: true, lobbyId: "LOB-9021" },
+    { id: 2, type: "system", text: "Security node verification completed.", time: "1h ago", unread: false },
+    { id: 3, type: "wallet", text: "Deposit of ₦2,000.00 processed successfully.", time: "3h ago", unread: false }
+]);
 
     // Detect responsive window size
     useEffect(() => {
@@ -292,12 +301,14 @@ export default function LeonDashboard() {
             </AnimatePresence>
 
             <GlobalHeader
-                livePlayers={livePlayers}
-                balance={balance}
-                isBalanceVisible={isBalanceVisible}
-                setIsBalanceVisible={setIsBalanceVisible}
-                setIsDepositModalOpen={setIsDepositModalOpen}
-            />
+    livePlayers={livePlayers}
+    balance={balance}
+    isBalanceVisible={isBalanceVisible}
+    setIsBalanceVisible={setIsBalanceVisible}
+    setIsDepositModalOpen={setIsDepositModalOpen}
+    unreadCount={notifications.filter(n => n.unread).length}
+    onToggleNotifications={() => setIsNotificationsOpen(!isNotificationsOpen)}
+/>
 
             {/* --- MASTER CONTAINER FOR MAIN LAYOUT --- */}
             <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex gap-8">
@@ -1228,7 +1239,18 @@ export default function LeonDashboard() {
                     </div>
                 )}
             </AnimatePresence>
-
+                {/* --- MODAL 4: SLIDE-IN NOTIFICATIONS DRAWER --- */}
+<NotificationsDrawer
+    isOpen={isNotificationsOpen}
+    onClose={() => setIsNotificationsOpen(false)}
+    notifications={notifications}
+    setNotifications={setNotifications}
+    onAcceptDuel={(lobbyId) => {
+        setIsNotificationsOpen(false);
+        const lobby = lobbies.find(l => l.id === lobbyId);
+        if (lobby) handleJoinLobby(lobby);
+    }}
+/>
         </div>
     );
 }

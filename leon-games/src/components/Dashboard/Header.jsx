@@ -20,34 +20,26 @@ export function GlobalHeader({
   balance = 12450.00,
   isBalanceVisible = true,
   setIsBalanceVisible,
-  setIsDepositModalOpen
+  setIsDepositModalOpen,
+  unreadCount = 0,          // <-- Added
+  onToggleNotifications    // <-- Added
 }) {
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showRewards, setShowRewards] = useState(false);
 
-  // Close dropdowns when clicking outside
-  const notificationsRef = useRef(null);
   const rewardsRef = useRef(null);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
-        setShowNotifications(false);
-      }
-      if (rewardsRef.current && !rewardsRef.current.contains(event.target)) {
-        setShowRewards(false);
-      }
+ useEffect(() => {
+  function handleClickOutside(event) {
+    // Removed notificationsRef check to prevent errors
+    if (rewardsRef.current && !rewardsRef.current.contains(event.target)) {
+      setShowRewards(false);
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
 
-  // Mock Notifications Data
-  const notifications = [
-    { id: 1, type: "match", text: "Chinedu_O accepted your Tic Tac Toe challenge.", time: "2m ago", unread: true },
-    { id: 2, type: "system", text: "Security node verification successful.", time: "1h ago", unread: false },
-    { id: 3, type: "wallet", text: "Deposit of ₦2,000.00 processed successfully.", time: "3h ago", unread: false }
-  ];
+
 
   // Mock Rewards Data
   const rewards = [
@@ -140,59 +132,17 @@ export function GlobalHeader({
             </AnimatePresence>
           </div>
 
-          {/* NOTIFICATIONS UTILITY TRIGGER */}
-          <div className="relative" ref={notificationsRef}>
-            <button
-              onClick={() => {
-                setShowNotifications(!showNotifications);
-                setShowRewards(false);
-              }}
-              className={`p-2 rounded-xl bg-[#0A0A0A] border transition-all cursor-pointer relative ${
-                showNotifications ? "border-emerald-500/40 text-emerald-400" : "border-white/[0.06] text-neutral-400 hover:text-white"
-              }`}
-              aria-label="System Notifications"
-            >
-              <Bell size={16} />
-              {/* Pulsing indicator if unread notifications exist */}
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            </button>
-
-            {/* Notifications Popover Menu */}
-            <AnimatePresence>
-              {showNotifications && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute right-0 mt-2.5 w-80 bg-[#0A0A0A] border border-white/[0.08] shadow-[0_8px_30px_rgba(0,0,0,0.8)] rounded-2xl p-4 overflow-hidden"
-                >
-                  <div className="flex items-center justify-between pb-3 border-b border-white/[0.04] mb-3">
-                    <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black">
-                      NOTIFICATIONS
-                    </span>
-                    <button 
-                      onClick={() => setShowNotifications(false)}
-                      className="text-[10px] text-neutral-500 hover:text-white transition-colors"
-                    >
-                      Clear all
-                    </button>
-                  </div>
-
-                  <div className="space-y-2.5 max-h-[250px] overflow-y-auto">
-                    {notifications.map((notif) => (
-                      <div key={notif.id} className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04] relative">
-                        {notif.unread && (
-                          <span className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                        )}
-                        <p className="text-xs text-neutral-300 leading-normal pr-3">{notif.text}</p>
-                        <span className="text-[9px] font-mono text-neutral-500 block mt-1">{notif.time}</span>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          {/* NOTIFICATIONS TRIGGER (Wires to Slide-In Drawer) */}
+<button
+  onClick={onToggleNotifications}
+  className="p-2 rounded-xl bg-[#0A0A0A] border border-white/[0.06] text-neutral-400 hover:text-white hover:border-white/[0.12] transition-all cursor-pointer relative"
+  aria-label="Toggle Alert Center"
+>
+  <Bell size={16} />
+  {unreadCount > 0 && (
+    <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+  )}
+</button>
 
           {/* Wallet Interface (SportyBet Inspired Display) */}
           <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-xl px-3 py-1.5 flex items-center gap-3.5 select-none">
