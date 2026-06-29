@@ -122,13 +122,20 @@ export default function SupportPage() {
                 href="https://wa.me/23480000000" 
                 target="_blank" 
                 rel="noreferrer"
-                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-[#00C853]/40 transition-all duration-300 group text-left"
+                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-[#00C853]/40 transition-all duration-300 group text-left flex flex-col justify-between"
               >
-                <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-emerald-400 w-fit mb-4 group-hover:bg-[#00C853]/10">
-                  <FiMessageCircle className="w-5 h-5" />
+                <div>
+                  <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-emerald-400 w-fit mb-4 group-hover:bg-[#00C853]/10">
+                    <FiMessageCircle className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">WhatsApp</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed">Perfect for quick, fast questions and direct wallet balance validations.</p>
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">WhatsApp</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed">Perfect for quick, fast questions and direct wallet balance validations.</p>
+                <div className="mt-6 flex justify-center">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-400 bg-emerald-400/10 px-3 py-1.5 rounded-full border border-emerald-400/20">
+                    +234 800 000 00
+                  </span>
+                </div>
               </a>
 
               {/* Telegram Community */}
@@ -136,49 +143,77 @@ export default function SupportPage() {
                 href="https://t.me/leongames" 
                 target="_blank" 
                 rel="noreferrer"
-                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-blue-500/40 transition-all duration-300 group text-left"
+                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-blue-500/40 transition-all duration-300 group text-left flex flex-col justify-between"
               >
-                <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-blue-400 w-fit mb-4 group-hover:bg-blue-500/10">
-                  <FiCompass className="w-5 h-5" />
+                <div>
+                  <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-blue-400 w-fit mb-4 group-hover:bg-blue-500/10">
+                    <FiCompass className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">Telegram Community</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed">Follow general announcements, updates, maintenance intervals, and weekly bonuses.</p>
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">Telegram Community</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed">Follow general announcements, updates, maintenance intervals, and weekly bonuses.</p>
+                <div className="mt-6 flex justify-center">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-400 bg-blue-400/10 px-3 py-1.5 rounded-full border border-blue-400/20">
+                    @leongames
+                  </span>
+                </div>
               </a>
 
               {/* Email Address */}
               <a 
                 href="mailto:support@leongames.com"
-                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-purple-500/40 transition-all duration-300 group text-left"
+                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-purple-500/40 transition-all duration-300 group text-left flex flex-col justify-between"
               >
-                <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-purple-400 w-fit mb-4 group-hover:bg-purple-500/10">
-                  <FiMail className="w-5 h-5" />
+                <div>
+                  <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-purple-400 w-fit mb-4 group-hover:bg-purple-500/10">
+                    <FiMail className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">Email Address</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed">For comprehensive accounts reviews, business queries, or direct corporate feedback.</p>
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">Email Address</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed">For comprehensive accounts reviews, business queries, or direct corporate feedback.</p>
+                <div className="mt-6 flex justify-center">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-purple-400 bg-purple-400/10 px-3 py-1.5 rounded-full border border-purple-400/20">
+                    support@leongames.com
+                  </span>
+                </div>
               </a>
 
               {/* SMS Text Messaging */}
               <a 
                 href="sms:+23480000000?body=Leon%20Games%20Support"
-                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-indigo-500/40 transition-all duration-300 group text-left"
+                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-indigo-500/40 transition-all duration-300 group text-left flex flex-col justify-between"
               >
-                <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-indigo-400 w-fit mb-4 group-hover:bg-indigo-500/10">
-                  <FiSend className="w-5 h-5" />
+                <div>
+                  <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-indigo-400 w-fit mb-4 group-hover:bg-indigo-500/10">
+                    <FiSend className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">SMS Message</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed">Contact us via offline texts if you are experiencing network data connection issues.</p>
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">SMS Message</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed">Contact us via offline texts if you are experiencing network data connection issues.</p>
+                <div className="mt-6 flex justify-center">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-indigo-400 bg-indigo-400/10 px-3 py-1.5 rounded-full border border-indigo-400/20">
+                    +234 800 000 00
+                  </span>
+                </div>
               </a>
 
               {/* Direct Phone Call */}
               <a 
                 href="tel:+23480000000"
-                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-[#00C853]/40 transition-all duration-300 group text-left"
+                className="p-6 rounded-2xl bg-zinc-950/40 border border-zinc-900 hover:border-[#00C853]/40 transition-all duration-300 group text-left flex flex-col justify-between"
               >
-                <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-[#00C853] w-fit mb-4 group-hover:bg-[#00C853]/10">
-                  <FiPhone className="w-5 h-5" />
+                <div>
+                  <div className="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-[#00C853] w-fit mb-4 group-hover:bg-[#00C853]/10">
+                    <FiPhone className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">Phone Call</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed">Call us directly during working business hours for high-priority assistance.</p>
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">Phone Call</h3>
-                <p className="text-xs text-zinc-500 leading-relaxed">Call us directly during working business hours for high-priority assistance.</p>
+                <div className="mt-6 flex justify-center">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#00C853] bg-[#00C853]/10 px-3 py-1.5 rounded-full border border-[#00C853]/20">
+                    +234 800 000 00
+                  </span>
+                </div>
               </a>
 
             </div>
