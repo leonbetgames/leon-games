@@ -25,28 +25,47 @@ export default function RGHero() {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Start typing automatically on mount using an internal loop
   useEffect(() => {
-    let timeout;
-    const fullText = phrases[phraseIndex];
-    if (!isDeleting) {
-      timeout = setTimeout(() => {
-        setDisplayText(fullText.slice(0, displayText.length + 1));
-        if (displayText.length + 1 === fullText.length) {
-          timeout = setTimeout(() => setIsDeleting(true), 1200); // Wait longer on full phrase
+    let mounted = true;
+    let current = '';
+    let deleting = false;
+    let idx = 0;
+    let timeoutId;
+
+    const tick = () => {
+      const full = phrases[idx];
+      if (!deleting) {
+        current = full.slice(0, current.length + 1);
+        if (!mounted) return;
+        setDisplayText(current);
+        if (current.length === full.length) {
+          timeoutId = setTimeout(() => {
+            deleting = true;
+            tick();
+          }, 1000);
+          return;
         }
-      }, 70); // Typings speed
-    } else {
-      timeout = setTimeout(() => {
-        setDisplayText(fullText.slice(0, displayText.length - 1));
-        if (displayText.length === 0) {
-          setIsDeleting(false);
-          setPhraseIndex((phraseIndex + 1) % phrases.length);
+        timeoutId = setTimeout(tick, 70);
+      } else {
+        current = full.slice(0, current.length - 1);
+        if (!mounted) return;
+        setDisplayText(current);
+        if (current.length === 0) {
+          deleting = false;
+          idx = (idx + 1) % phrases.length;
         }
-      }, 30); // Deleting speed
-    }
-    return () => clearTimeout(timeout);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayText, isDeleting, phraseIndex]);
+        timeoutId = setTimeout(tick, 30);
+      }
+    };
+
+    tick();
+    return () => {
+      mounted = false;
+      clearTimeout(timeoutId);
+    };
+  // run once on mount
+  }, []);
 
   const handleMouseMove = (e) => {
     const el = containerRef.current;
@@ -124,7 +143,10 @@ export default function RGHero() {
             >
               
               {/* Premium Top Banner with Typographic Indicator */}
-              <div className="absolute top-0 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between">
+              <div
+                className="absolute top-0 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between"
+                style={{ transform: 'rotate(-3deg) translateY(-6px)', transformOrigin: 'center top' }}
+              >
                 <div className="flex items-center space-x-2.5">
                   <span className="w-2 h-2 rounded-full bg-[#00C853] animate-pulse" />
                   <span className="text-xs font-mono tracking-wider text-zinc-400 uppercase">Status</span>
@@ -143,7 +165,10 @@ export default function RGHero() {
               />
 
               {/* Premium Bottom Banner containing Corporate Logo */}
-              <div className="absolute bottom-0 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between">
+              <div
+                className="absolute bottom-10 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between"
+                style={{ transform: 'rotate3deg) translateY(6px)', transformOrigin: 'center bottom' }}
+              >
                 <div className="flex items-center gap-3">
                   <div className="p-1 rounded-lg bg-zinc-900 border border-zinc-800">
                     <img src={Logo} alt="Leon Games logo" className="w-5 h-5 object-contain" />
