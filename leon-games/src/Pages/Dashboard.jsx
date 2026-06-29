@@ -119,6 +119,21 @@ export default function LeonDashboard() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+        const isDrawerOpen = isNotificationsOpen || isRewardsOpen || isProfileOpen;
+        const previousOverflow = document.body.style.overflow;
+
+        if (isDrawerOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = previousOverflow;
+        }
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isNotificationsOpen, isRewardsOpen, isProfileOpen]);
+
     // Fluctuating real-time numbers simulation (Connection realism)
     useEffect(() => {
         const interval = setInterval(() => {
@@ -289,7 +304,7 @@ export default function LeonDashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-emerald-500/30 selection:text-white relative overflow-x-hidden pb-24 lg:pb-0">
+        <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-emerald-500/30 selection:text-white relative overflow-x-hidden overflow-hidden pb-24 lg:pb-0">
 
             {/* BACKGROUND AMBIENT GLOWS */}
             <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.01] blur-[150px] pointer-events-none" />
@@ -337,10 +352,10 @@ export default function LeonDashboard() {
             />
 
             {/* --- MASTER CONTAINER FOR MAIN LAYOUT --- */}
-            <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex gap-8">
+            <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex gap-8 h-[calc(100vh-72px)] max-h-[calc(100vh-72px)] overflow-hidden">
 
                 {/* --- PERSISTENT LEFT SIDEBAR (DESKTOP) --- */}
-                <aside className="hidden lg:flex flex-col w-64 shrink-0 gap-6">
+                <aside className="hidden lg:flex flex-col w-64 shrink-0 gap-6 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                     <nav className="flex flex-col gap-1 bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-3">
                         <button
                             onClick={() => setActiveTab("arena")}
@@ -433,7 +448,7 @@ export default function LeonDashboard() {
                 </aside>
 
                 {/* --- MAIN CORE PANEL WORKSPACE --- */}
-                <main className="flex-1 min-w-0">
+                <main className="flex-1 min-w-0 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
 
                     <AnimatePresence mode="wait">
 
@@ -1266,41 +1281,53 @@ export default function LeonDashboard() {
                 )}
             </AnimatePresence>
             {/* --- MODAL 4: SLIDE-IN NOTIFICATIONS DRAWER --- */}
-            {/* --- MODAL 4: SLIDE-IN NOTIFICATIONS DRAWER --- */}
-            <NotificationsDrawer
-                isOpen={isNotificationsOpen}
-                onClose={() => setIsNotificationsOpen(false)}
-                notifications={notifications}
-                setNotifications={setNotifications}
-                onAcceptDuel={(lobbyId) => {
-                    setIsNotificationsOpen(false);
-                    const lobby = lobbies.find(l => l.id === lobbyId);
-                    if (lobby) handleJoinLobby(lobby);
-                }}
-            />
+            <AnimatePresence>
+                {isNotificationsOpen && (
+                    <NotificationsDrawer
+                        isOpen={isNotificationsOpen}
+                        onClose={() => setIsNotificationsOpen(false)}
+                        notifications={notifications}
+                        setNotifications={setNotifications}
+                        onAcceptDuel={(lobbyId) => {
+                            setIsNotificationsOpen(false);
+                            const lobby = lobbies.find(l => l.id === lobbyId);
+                            if (lobby) handleJoinLobby(lobby);
+                        }}
+                    />
+                )}
+            </AnimatePresence>
 
             {/* --- MODAL 5: SLIDE-IN REWARDS DRAWER --- */}
-            <RewardsDrawer
-                isOpen={isRewardsOpen}
-                onClose={() => setIsRewardsOpen(false)}
-                rewards={rewards}
-                totalRewardsClaimed={3450.00}
-            />
+            <AnimatePresence>
+                {isRewardsOpen && (
+                    <RewardsDrawer
+                        isOpen={isRewardsOpen}
+                        onClose={() => setIsRewardsOpen(false)}
+                        rewards={rewards}
+                        totalRewardsClaimed={3450.00}
+                    />
+                )}
+            </AnimatePresence>
+
             {/* --- MODAL 6: SLIDE-IN PROFILE DRAWER --- */}
-            <ProfileDrawer
-                isOpen={isProfileOpen}
-                onClose={() => setIsProfileOpen(false)}
-                username="UserPeer_99"
-                balanceBreakdown={{
-                    total: balance,
-                    deposited: 5000.00,
-                    gameEarnings: 4000.00,
-                    rewards: 3450.00
-                }}
-                wagerPoints={350} // Silver Rank
-                setIsDepositModalOpen={setIsDepositModalOpen}
-                onWithdrawRequest={() => triggerToast("Payout channels offline. Contact administrator.")}
-            />
+            <AnimatePresence>
+                {isProfileOpen && (
+                    <ProfileDrawer
+                        isOpen={isProfileOpen}
+                        onClose={() => setIsProfileOpen(false)}
+                        username="UserPeer_99"
+                        balanceBreakdown={{
+                            total: balance,
+                            deposited: 5000.00,
+                            gameEarnings: 4000.00,
+                            rewards: 3450.00
+                        }}
+                        wagerPoints={350} // Silver Rank
+                        setIsDepositModalOpen={setIsDepositModalOpen}
+                        onWithdrawRequest={() => triggerToast("Payout channels offline. Contact administrator.")}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     );
 }
