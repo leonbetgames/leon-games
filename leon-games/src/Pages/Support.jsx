@@ -9,13 +9,13 @@ import { Navigation } from '../components/common/NavBar';
 import SupportIllustration from '../components/Support/Illustration';
 import SmartHelpModal from '../components/Support/SmartHelpModal';
 import Footer from '../components/common/Footer';
+import { GreenButton, BlackButton } from '../components/common/AnimatedButton';
 
 // Static FAQs
 const faqs = [
   { q: "How long do withdrawals take?", a: "Withdrawals are reviewed manually by security staff and typically clear within 1 to 4 hours. Depending on bank-side delays, some requests can take up to 24 hours to post." },
   { q: "How do I reset my password?", a: "Simply click 'Forgot Password' on our login screen. An instant secure account recovery email containing reset instructions will be delivered to your verified inbox." },
   { q: "Why is my deposit pending?", a: "Pending deposits occur during bank processing delays or transaction reconciliations with merchant gateways. Please allow 15 minutes before opening a support request." },
-  { q: "How do weekly bonuses work?", a: "Weekly bonuses are based directly on leaderboard rank positions. Distributions are processed dynamically at the end of each weekly tracking period." }
 ];
 
 export default function SupportPage() {
@@ -77,7 +77,7 @@ export default function SupportPage() {
               transition={{ duration: 0.8 }}
               className="space-y-6 text-left"
             >
-              <span className="text-xs font-bold tracking-widest uppercase text-[#00C853] bg-[#00C853]/10 px-3.5 py-1.5 rounded-full border border-[#00C853]/20">
+              <span className="text-xs font-bold tracking-widest uppercase text-[#00C853] bg-[#00C853]/10 px-3.5 py-1.5 rounded-full border border-[#00C853]/20 mb-5 inline-block">
                 24/7 Player Assistance
               </span>
               <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
@@ -87,18 +87,12 @@ export default function SupportPage() {
                 Whether you need help with your account, payments, gameplay, or technical issues, we're here to help. Browse common solutions, contact us directly, or send us a support request.
               </p>
               <div className="pt-2 flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={scrollToForm}
-                  className="px-6 py-3.5 rounded-xl bg-[#00C853] text-black font-semibold text-sm hover:bg-[#00b24a] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-                >
+                <GreenButton onClick={scrollToForm} className="w-auto">
                   Contact Us
-                </button>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="px-6 py-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-200 font-semibold text-sm hover:bg-zinc-800 transition-colors"
-                >
+                </GreenButton>
+                <BlackButton onClick={() => setIsModalOpen(true)} className="w-auto">
                   Open Smart Help
-                </button>
+                </BlackButton>
               </div>
             </motion.div>
 
@@ -241,12 +235,9 @@ export default function SupportPage() {
               <h3 className="text-lg font-bold text-white">Try Our Guided Smart Help</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">Solve your questions without waiting for an available representative. Our step-by-step assistant troubleshoots deposits, gameplay, accounts, and payouts immediately.</p>
             </div>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="w-fit px-6 py-3 rounded-xl bg-[#00C853] text-black font-semibold text-xs hover:bg-[#00b24a] transition-all"
-            >
+            <GreenButton onClick={() => setIsModalOpen(true)} className="w-auto">
               Launch Guided Assistant
-            </button>
+            </GreenButton>
           </div>
 
         </section>
@@ -354,12 +345,9 @@ export default function SupportPage() {
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    className="w-full py-4 rounded-xl bg-[#00C853] text-black font-bold text-xs md:text-sm hover:bg-[#00b24a] transition-colors shadow-lg"
-                  >
+                  <GreenButton type="submit" className="w-full">
                     Send Support Request
-                  </button>
+                  </GreenButton>
                 </motion.form>
               ) : (
                 <motion.div 
@@ -377,12 +365,9 @@ export default function SupportPage() {
                       Thank you for contacting us, {firstName}. Your reference ticket was successfully generated. We will reply to your registered email shortly.
                     </p>
                   </div>
-                  <button
-                    onClick={handleFormReset}
-                    className="mt-2 px-5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 hover:text-white transition-colors"
-                  >
+                  <BlackButton onClick={handleFormReset} className="mt-2">
                     Send Another Message
-                  </button>
+                  </BlackButton>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -426,12 +411,9 @@ export default function SupportPage() {
               );
             })}
 
-            <button
-              onClick={scrollToForm}
-              className="px-6 py-3 rounded-xl bg-[#00C853] text-black font-semibold text-xs md:text-sm hover:bg-[#00b24a] mt-5"
-            >
+            <GreenButton onClick={scrollToForm} className="mt-5">
               View All FAQs
-            </button>
+            </GreenButton>
           </div>
         </section>
 
