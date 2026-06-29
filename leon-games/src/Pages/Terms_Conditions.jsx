@@ -17,7 +17,7 @@ export default function TermsConditions() {
   return (
     <div className="min-h-screen bg-[#070708] text-zinc-100 flex flex-col font-sans antialiased overflow-x-hidden">
       {/* 1. Exact Required Navigation Element */}
-      <Navigation variant="subpage" label="Terms & Conditions" />
+      <Navigation variant="subpage" label="Terms" />
 
       {/* 2. Scrollable Body container with padding-top offset to avoid navbar overlap */}
       <main className="flex-1 w-full max-w-[1000px] mx-auto px-4 md:px-8 pb-24 pt-16 md:pt-20">
