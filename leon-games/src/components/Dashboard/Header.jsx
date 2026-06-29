@@ -12,6 +12,8 @@ import {
   Coins 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Logo from '../../assets/images/logo.png';
+import { LeonLogo } from "../common/logo";
 
 export function GlobalHeader({
   livePlayers = 942,
@@ -61,18 +63,7 @@ export function GlobalHeader({
         {/* Brand & Connection Status */}
         <div className="flex items-center gap-3">
           {/* Custom logo.png with standard fallback */}
-          <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-neutral-900 border border-white/[0.08] overflow-hidden">
-            <img 
-              src="logo.png" 
-              alt="Leon Games" 
-              className="w-full h-full object-contain"
-              onError={(e) => {
-                // Generates an elegant CSS fallback letter if logo.png is temporarily inaccessible
-                e.target.style.display = 'none';
-                e.target.parentNode.innerHTML = '<span class="text-sm font-black text-emerald-400 font-mono">L</span>';
-              }}
-            />
-          </div>
+          <LeonLogo size={40}/>
 
           {/* Collapses completely on small screens */}
           <div className="hidden sm:block">
@@ -224,17 +215,17 @@ export function GlobalHeader({
             </div>
             <button
               onClick={() => setIsDepositModalOpen(true)}
-              className="bg-emerald-500 hover:bg-emerald-600 text-[#050505] font-extrabold text-[11px] px-2.5 py-1.5 rounded-lg transition-all shadow-[0_2px_10px_rgba(34,197,94,0.25)] flex items-center gap-1 cursor-pointer"
+              className="bg-emerald-500 hover:bg-emerald-600 text-[#050505] font-extrabold text-[11px] px-2 py-1.5 rounded-lg transition-all shadow-[0_2px_10px_rgba(34,197,94,0.25)] flex items-center justify-center gap-1 cursor-pointer sm:px-2.5"
             >
               <Plus size={12} strokeWidth={3} />
-              <span>DEPOSIT</span>
+              <span className="hidden sm:inline">DEPOSIT</span>
             </button>
           </div>
 
           {/* User Profile Avatar */}
-          <div className="hidden sm:flex items-center gap-2 border-l border-white/[0.06] pl-3">
-            <div className="w-8 h-8 rounded-full bg-neutral-950 border border-white/[0.08] flex items-center justify-center text-xs font-mono font-bold text-cyan-400">
-              L
+          <div className="flex items-center gap-2 border-l border-white/[0.06] pl-3 flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-neutral-950 border border-white/[0.08] flex items-center justify-center text-base font-bold text-cyan-400">
+              😡
             </div>
           </div>
 

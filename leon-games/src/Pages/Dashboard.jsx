@@ -291,7 +291,13 @@ export default function LeonDashboard() {
                 )}
             </AnimatePresence>
 
-            <GlobalHeader />
+            <GlobalHeader
+                livePlayers={livePlayers}
+                balance={balance}
+                isBalanceVisible={isBalanceVisible}
+                setIsBalanceVisible={setIsBalanceVisible}
+                setIsDepositModalOpen={setIsDepositModalOpen}
+            />
 
             {/* --- MASTER CONTAINER FOR MAIN LAYOUT --- */}
             <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex gap-8">
