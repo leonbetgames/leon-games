@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown, FiMail, FiPhone, FiInfo } from 'react-icons/fi';
 import { TrustIllustration } from './Illustrations';
+import { GreenButton, BlackButton } from '../common/AnimatedButton';
 
 const faqs = [
   {
@@ -56,17 +57,12 @@ export default function RGHelpAndFAQ() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
-          <a 
-            href="mailto:support@leongames.com"
-            className="px-6 py-3 rounded-xl bg-[#00C853] text-black text-xs md:text-sm font-semibold hover:bg-[#00b24a] transition-colors flex items-center justify-center gap-2"
-          >
+          <GreenButton as="a" href="mailto:support@leongames.com">
             <FiMail className="w-4 h-4" /> Contact Support
-          </a>
-          <button 
-            className="px-6 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs md:text-sm font-semibold hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
-          >
+          </GreenButton>
+          <BlackButton>
             <FiPhone className="w-4 h-4" /> Visit Support Center
-          </button>
+          </BlackButton>
         </div>
       </motion.div>
 

@@ -1,6 +1,7 @@
 // components/RGHero.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { GreenButton } from '../common/AnimatedButton';
 import RGIImg from '../../assets/images/RGI-img.png';
 import Logo from '../../assets/images/logo.png';
 
@@ -109,12 +110,7 @@ export default function RGHero() {
             We believe gaming should remain enjoyable, entertaining, and always within your control. Our goal is to create a fair, secure, and enjoyable environment where every player can have fun while maintaining healthy gaming habits.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row gap-4">
-            <button
-              onClick={scrollToCommitment}
-              className="px-6 py-3.5 rounded-xl bg-[#00C853] text-black font-semibold text-sm hover:bg-[#00b24a] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-emerald-950/20"
-            >
-              Explore Healthy Gaming Practices
-            </button>
+            <GreenButton onClick={scrollToCommitment}>Explore Healthy Gaming Practices</GreenButton>
           </div>
         </motion.div>
 
@@ -129,7 +125,7 @@ export default function RGHero() {
             ref={containerRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="w-full max-w-md lg:max-w-lg flex justify-center relative select-none"
+            className="cursor-move w-full max-w-md lg:max-w-lg flex justify-center relative select-none"
             style={{ overflow: 'visible' }}
           >
             {/* Unified Parallax Group Container */}
@@ -167,7 +163,7 @@ export default function RGHero() {
               {/* Premium Bottom Banner containing Corporate Logo */}
               <div
                 className="absolute bottom-10 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between"
-                style={{ transform: 'rotate3deg) translateY(6px)', transformOrigin: 'center bottom' }}
+                style={{ transform: 'rotate(6deg) translateY(6px)', transformOrigin: 'center bottom' }}
               >
                 <div className="flex items-center gap-3">
                   <div className="p-1 rounded-lg bg-zinc-900 border border-zinc-800">
