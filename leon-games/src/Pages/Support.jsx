@@ -11,6 +11,7 @@ import SmartHelpModal from '../components/Support/SmartHelpModal';
 import Footer from '../components/common/Footer';
 import { GreenButton, BlackButton } from '../components/common/AnimatedButton';
 import CommunityLinks from '../components/Support/CommunityLinks';
+import Logo from '../assets/images/logo.png';
 
 // Static FAQs
 const faqs = [
@@ -19,9 +20,19 @@ const faqs = [
   { q: "Why is my deposit pending?", a: "Pending deposits occur during bank processing delays or transaction reconciliations with merchant gateways. Please allow 15 minutes before opening a support request." },
 ];
 
+const phrases = [
+  'Need help? We\'re here.',
+  'Search our knowledge base.',
+  'Report an issue.',
+  'Track your support tickets.',
+  'Ask our support team.',
+  'Let\'s solve it together.'
+];
+
 export default function SupportPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
+  const [displayText, setDisplayText] = useState('');
   
   // Direct Contact Form State
   const [firstName, setFirstName] = useState('');
@@ -35,6 +46,50 @@ export default function SupportPage() {
   useEffect(() => {
     document.title = "Support Center - Leon Games";
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    let timeoutId;
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    const tick = () => {
+      if (!mounted) return;
+
+      const fullText = phrases[phraseIndex];
+
+      if (!isDeleting) {
+        charIndex += 1;
+        setDisplayText(fullText.slice(0, charIndex));
+
+        if (charIndex === fullText.length) {
+          timeoutId = window.setTimeout(() => {
+            isDeleting = true;
+            tick();
+          }, 1200);
+          return;
+        }
+      } else {
+        charIndex -= 1;
+        setDisplayText(fullText.slice(0, charIndex));
+
+        if (charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+      }
+
+      timeoutId = window.setTimeout(tick, isDeleting ? 35 : 55);
+    };
+
+    tick();
+
+    return () => {
+      mounted = false;
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const handleFormSubmit = (e) => {
@@ -81,7 +136,7 @@ export default function SupportPage() {
               <span className="text-xs font-bold tracking-widest uppercase text-[#00C853] bg-[#00C853]/10 px-3.5 py-1.5 rounded-full border border-[#00C853]/20 mb-5 inline-block">
                 24/7 Player Assistance
               </span>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-emerald-400 to-[#00C853] drop-shadow-[0_0_18px_rgba(34,211,238,0.35)]">
                 💬 Support Center
               </h1>
               <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-lg">
@@ -104,17 +159,30 @@ export default function SupportPage() {
               className="relative flex justify-center lg:justify-end"
             >
               <div className="w-full max-w-[460px] relative">
-                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between" style={{ transform: 'rotate(-3deg) translate(-50%, 0)' }}>
+                <div className="absolute top-3 left-100 -translate-x-1/2 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between" style={{ transform: 'rotate(-3deg) translate(-50%, 0)' }}>
                   <div className="flex items-center space-x-2.5">
                     <span className="w-2 h-2 rounded-full bg-[#00C853] animate-pulse" />
                     <span className="text-xs font-mono tracking-wider text-zinc-400 uppercase">Status</span>
                   </div>
                   <div className="text-sm font-bold text-white font-mono tracking-wide">
-                    24/7 Online
+                    {displayText}
                     <span className="inline-block w-[2px] h-4 bg-[#00C853] ml-1 align-middle animate-pulse" />
                   </div>
                 </div>
                 <SupportIllustration />
+                <div className="absolute bottom-0 left-100 -translate-x-1/2 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between" style={{ transform: 'rotate(4deg) translate(-50%, 0)' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="p-1 rounded-lg bg-zinc-900 border border-zinc-800">
+                      <img src={Logo} alt="Leon Games logo" className="w-5 h-5 object-contain" />
+                    </div>
+                    <span className="text-xs font-black tracking-widest text-white uppercase">
+                      Leon Games
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-bold tracking-widest text-[#00C853] uppercase bg-[#00C853]/10 px-2 py-0.5 rounded border border-[#00C853]/20">
+                    Support Ready
+                  </span>
+                </div>
               </div>
             </motion.div>
           </div>
