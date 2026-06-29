@@ -97,20 +97,20 @@ export default function RGHero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="space-y-6 text-left"
         >
-          <span className="text-xs font-bold tracking-widest uppercase text-[#00C853] bg-[#00C853]/10 px-3.5 py-1.5 rounded-full border border-[#00C853]/20">
-            Player Well-being First
+          <span className="text-xs font-bold tracking-widest uppercase text-[#00C853] bg-[#00C853]/10 px-3.5 py-1.5 rounded-full border border-[#00C853]/20 mb-3 inline-block">
+            🛡️ Player Well-being First
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Responsible <br/>
+            🎯 Responsible <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-[#00C853] to-blue-500">
-              Skill Gaming
+              🕹️ Skill Gaming
             </span>
           </h1>
           <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-lg">
             We believe gaming should remain enjoyable, entertaining, and always within your control. Our goal is to create a fair, secure, and enjoyable environment where every player can have fun while maintaining healthy gaming habits.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row gap-4">
-            <GreenButton onClick={scrollToCommitment}>Explore Healthy Gaming Practices</GreenButton>
+            <GreenButton onClick={scrollToCommitment}>✨ Explore Healthy Gaming Practices</GreenButton>
           </div>
         </motion.div>
 
