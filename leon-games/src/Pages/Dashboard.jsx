@@ -30,6 +30,7 @@ import {
 import { GAMES } from "../components/Dashboard/Games";
 import { GlobalHeader } from "../components/Dashboard/Header";
 import { NotificationsDrawer } from "../components/Dashboard/NotificationsDrawer";
+import { RewardsDrawer } from "../components/Dashboard/RewardsDrawer";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -91,14 +92,21 @@ export default function LeonDashboard() {
     // User notifications & UI Toast feedback
     const [toastMessage, setToastMessage] = useState(null);
 
-    // --- NOTIFICATIONS STATE SHIFTED TO MAIN DASHBOARD ---
-const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-const [notifications, setNotifications] = useState([
-    { id: 1, type: "match", text: "Chinedu_O sent you a Rock Paper Scissors challenge.", time: "2m ago", unread: true, lobbyId: "LOB-9021" },
-    { id: 2, type: "system", text: "Security node verification completed.", time: "1h ago", unread: false },
-    { id: 3, type: "wallet", text: "Deposit of ₦2,000.00 processed successfully.", time: "3h ago", unread: false }
-]);
+    // --- NOTIFICATIONS & REWARDS DRAWERS STATE ---
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isRewardsOpen, setIsRewardsOpen] = useState(false);
 
+    const [notifications, setNotifications] = useState([
+        { id: 1, type: "match", text: "Chinedu_O sent you a Rock Paper Scissors challenge.", time: "2m ago", unread: true, lobbyId: "LOB-9021" },
+        { id: 2, type: "system", text: "Security node verification completed.", time: "1h ago", unread: false },
+        { id: 3, type: "wallet", text: "Deposit of ₦2,000.00 processed successfully.", time: "3h ago", unread: false }
+    ]);
+
+    const [rewards, setRewards] = useState([
+        { id: 1, title: "Daily Login Loyalty Boost", date: "Today, 8:05 AM", value: "+₦50.00", status: "claimed" },
+        { id: 2, title: "Double Match Multiplier Active", date: "Today, 10:11 AM", value: "Multiplier", status: "active" },
+        { id: 3, title: "Peer Referral Bonus payout", date: "Yesterday, 4:21 PM", value: "+₦500.00", status: "claimed" }
+    ]);
     // Detect responsive window size
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -301,14 +309,21 @@ const [notifications, setNotifications] = useState([
             </AnimatePresence>
 
             <GlobalHeader
-    livePlayers={livePlayers}
-    balance={balance}
-    isBalanceVisible={isBalanceVisible}
-    setIsBalanceVisible={setIsBalanceVisible}
-    setIsDepositModalOpen={setIsDepositModalOpen}
-    unreadCount={notifications.filter(n => n.unread).length}
-    onToggleNotifications={() => setIsNotificationsOpen(!isNotificationsOpen)}
-/>
+                livePlayers={livePlayers}
+                balance={balance}
+                isBalanceVisible={isBalanceVisible}
+                setIsBalanceVisible={setIsBalanceVisible}
+                setIsDepositModalOpen={setIsDepositModalOpen}
+                unreadCount={notifications.filter(n => n.unread).length}
+                onToggleNotifications={() => {
+                    setIsNotificationsOpen(!isNotificationsOpen);
+                    setIsRewardsOpen(false); // Close other drawer
+                }}
+                onToggleRewards={() => {
+                    setIsRewardsOpen(!isRewardsOpen);
+                    setIsNotificationsOpen(false); // Close other drawer
+                }}
+            />
 
             {/* --- MASTER CONTAINER FOR MAIN LAYOUT --- */}
             <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex gap-8">
@@ -319,8 +334,8 @@ const [notifications, setNotifications] = useState([
                         <button
                             onClick={() => setActiveTab("arena")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "arena"
-                                    ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                    : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             <Sword size={14} className={activeTab === "arena" ? "text-emerald-400" : ""} />
@@ -330,8 +345,8 @@ const [notifications, setNotifications] = useState([
                         <button
                             onClick={() => setActiveTab("leaderboards")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "leaderboards"
-                                    ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                    : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             <Trophy size={14} className={activeTab === "leaderboards" ? "text-emerald-400" : ""} />
@@ -341,8 +356,8 @@ const [notifications, setNotifications] = useState([
                         <button
                             onClick={() => setActiveTab("wallet")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "wallet"
-                                    ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                    : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             <Wallet size={14} className={activeTab === "wallet" ? "text-emerald-400" : ""} />
@@ -352,8 +367,8 @@ const [notifications, setNotifications] = useState([
                         <button
                             onClick={() => setActiveTab("history")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "history"
-                                    ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                    : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             <History size={14} className={activeTab === "history" ? "text-emerald-400" : ""} />
@@ -363,8 +378,8 @@ const [notifications, setNotifications] = useState([
                         <button
                             onClick={() => setActiveTab("referrals")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "referrals"
-                                    ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                    : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
                                 }`}
                         >
                             <Gift size={14} className={activeTab === "referrals" ? "text-emerald-400" : ""} />
@@ -494,8 +509,8 @@ const [notifications, setNotifications] = useState([
                                                     triggerToast(`Lobbies filtered to ${game.title}`);
                                                 }}
                                                 className={`group relative flex flex-col justify-between bg-[#0A0A0A] border rounded-2xl p-4 cursor-pointer transition-all duration-300 select-none overflow-hidden ${selectedGameFilter === game.id
-                                                        ? "border-emerald-500/40 shadow-[0_4px_20px_rgba(34,197,94,0.06)] scale-[1.02] bg-[#111111]"
-                                                        : "border-white/[0.06] hover:border-white/[0.12]"
+                                                    ? "border-emerald-500/40 shadow-[0_4px_20px_rgba(34,197,94,0.06)] scale-[1.02] bg-[#111111]"
+                                                    : "border-white/[0.06] hover:border-white/[0.12]"
                                                     }`}
                                             >
                                                 <div className="absolute top-0 right-0 w-20 h-20 bg-white/[0.01] rounded-full blur-xl pointer-events-none group-hover:scale-110 transition-transform" />
@@ -997,8 +1012,8 @@ const [notifications, setNotifications] = useState([
                                                     type="button"
                                                     onClick={() => setCreateStake(val)}
                                                     className={`py-2 text-xs font-mono font-bold rounded-lg transition-all border cursor-pointer ${createStake === val
-                                                            ? "bg-emerald-500 text-[#050505] border-transparent font-black"
-                                                            : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]"
+                                                        ? "bg-emerald-500 text-[#050505] border-transparent font-black"
+                                                        : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04]"
                                                         }`}
                                                 >
                                                     ₦{val}
@@ -1212,8 +1227,8 @@ const [notifications, setNotifications] = useState([
                                             type="button"
                                             onClick={() => setDepositAmount(val)}
                                             className={`py-1.5 text-xs font-mono font-medium rounded-lg transition-all border cursor-pointer ${depositAmount === val
-                                                    ? "bg-emerald-400 text-neutral-950 border-transparent font-bold"
-                                                    : "bg-white/[0.01] border-white/[0.06] hover:bg-white/[0.03]"
+                                                ? "bg-emerald-400 text-neutral-950 border-transparent font-bold"
+                                                : "bg-white/[0.01] border-white/[0.06] hover:bg-white/[0.03]"
                                                 }`}
                                         >
                                             ₦{val}
@@ -1239,18 +1254,27 @@ const [notifications, setNotifications] = useState([
                     </div>
                 )}
             </AnimatePresence>
-                {/* --- MODAL 4: SLIDE-IN NOTIFICATIONS DRAWER --- */}
-<NotificationsDrawer
-    isOpen={isNotificationsOpen}
-    onClose={() => setIsNotificationsOpen(false)}
-    notifications={notifications}
-    setNotifications={setNotifications}
-    onAcceptDuel={(lobbyId) => {
-        setIsNotificationsOpen(false);
-        const lobby = lobbies.find(l => l.id === lobbyId);
-        if (lobby) handleJoinLobby(lobby);
-    }}
-/>
+            {/* --- MODAL 4: SLIDE-IN NOTIFICATIONS DRAWER --- */}
+            {/* --- MODAL 4: SLIDE-IN NOTIFICATIONS DRAWER --- */}
+            <NotificationsDrawer
+                isOpen={isNotificationsOpen}
+                onClose={() => setIsNotificationsOpen(false)}
+                notifications={notifications}
+                setNotifications={setNotifications}
+                onAcceptDuel={(lobbyId) => {
+                    setIsNotificationsOpen(false);
+                    const lobby = lobbies.find(l => l.id === lobbyId);
+                    if (lobby) handleJoinLobby(lobby);
+                }}
+            />
+
+            {/* --- MODAL 5: SLIDE-IN REWARDS DRAWER --- */}
+            <RewardsDrawer
+                isOpen={isRewardsOpen}
+                onClose={() => setIsRewardsOpen(false)}
+                rewards={rewards}
+                totalRewardsClaimed={3450.00}
+            />
         </div>
     );
 }
