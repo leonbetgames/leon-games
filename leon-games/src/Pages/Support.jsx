@@ -10,6 +10,7 @@ import SupportIllustration from '../components/Support/Illustration';
 import SmartHelpModal from '../components/Support/SmartHelpModal';
 import Footer from '../components/common/Footer';
 import { GreenButton, BlackButton } from '../components/common/AnimatedButton';
+import CommunityLinks from '../components/Support/CommunityLinks';
 
 // Static FAQs
 const faqs = [
@@ -81,10 +82,10 @@ export default function SupportPage() {
                 24/7 Player Assistance
               </span>
               <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                Support Center
+                💬 Support Center
               </h1>
               <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-lg">
-                Whether you need help with your account, payments, gameplay, or technical issues, we're here to help. Browse common solutions, contact us directly, or send us a support request.
+                🛠️ Whether you need help with your account, payments, gameplay, or technical issues, we're here to help. Browse common solutions, contact us directly, or send us a support request. ✨
               </p>
               <div className="pt-2 flex flex-col sm:flex-row gap-4">
                 <GreenButton onClick={scrollToForm} className="w-auto">
@@ -102,7 +103,19 @@ export default function SupportPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative flex justify-center lg:justify-end"
             >
-              <SupportIllustration />
+              <div className="w-full max-w-[460px] relative">
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[85%] sm:w-3/4 bg-black/75 backdrop-blur-lg px-5 py-3 rounded-xl border border-zinc-800/80 z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-between" style={{ transform: 'rotate(-3deg) translate(-50%, 0)' }}>
+                  <div className="flex items-center space-x-2.5">
+                    <span className="w-2 h-2 rounded-full bg-[#00C853] animate-pulse" />
+                    <span className="text-xs font-mono tracking-wider text-zinc-400 uppercase">Status</span>
+                  </div>
+                  <div className="text-sm font-bold text-white font-mono tracking-wide">
+                    24/7 Online
+                    <span className="inline-block w-[2px] h-4 bg-[#00C853] ml-1 align-middle animate-pulse" />
+                  </div>
+                </div>
+                <SupportIllustration />
+              </div>
             </motion.div>
           </div>
         </section>
@@ -451,6 +464,8 @@ export default function SupportPage() {
             </GreenButton>
           </div>
         </section>
+
+        <CommunityLinks />  
 
         
 

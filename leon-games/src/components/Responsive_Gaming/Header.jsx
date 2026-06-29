@@ -2,8 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GreenButton } from '../common/AnimatedButton';
-import RGIImg from '../../assets/images/RGI-img.png';
 import Logo from '../../assets/images/logo.png';
+import { HeroIllustration } from './Illustrations';
 
 export default function RGHero() {
   const scrollToCommitment = () => {
@@ -153,12 +153,10 @@ export default function RGHero() {
                 </div>
               </div>
 
-              {/* Central Laptop Image */}
-              <img
-                src={RGIImg}
-                alt="Responsible gaming setup"
-                className="w-full object-contain relative z-10 p-6 drop-shadow-[0_20px_50px_rgba(0,200,83,0.15)]"
-              />
+              {/* Central Illustration */}
+              <div className="relative z-10 w-full max-w-[420px] p-2 drop-shadow-[0_20px_50px_rgba(0,200,83,0.15)]">
+                <HeroIllustration />
+              </div>
 
               {/* Premium Bottom Banner containing Corporate Logo */}
               <div
