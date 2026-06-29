@@ -16,7 +16,8 @@ export function GlobalHeader({
   setIsDepositModalOpen,
   unreadCount = 0,
   onToggleNotifications, // Triggers slide-in notifications
-  onToggleRewards        // Triggers slide-in rewards
+  onToggleRewards,       // Triggers slide-in rewards
+  onToggleProfile        // Triggers slide-in profile details
 }) {
 
   return (
@@ -68,8 +69,8 @@ export function GlobalHeader({
             )}
           </button>
 
-          {/* Wallet Interface (SportyBet Inspired Display) */}
-          <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-xl px-3 py-1.5 flex items-center gap-3.5 select-none">
+          {/* Wallet Interface */}
+          <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-xl px-3 py-1.5 flex items-center gap-3.5 select-none font-sans">
             <div className="flex flex-col">
               <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest leading-none mb-0.5">
                 MAIN WALLET
@@ -96,12 +97,16 @@ export function GlobalHeader({
             </button>
           </div>
 
-          {/* User Profile Avatar */}
-          <div className="flex items-center gap-2 border-l border-white/[0.06] pl-3 flex-shrink-0">
+          {/* USER PROFILE AVATAR SLIDE-IN TRIGGER */}
+          <button
+            onClick={onToggleProfile}
+            className="flex items-center gap-2 border-l border-white/[0.06] pl-3 flex-shrink-0 cursor-pointer"
+            aria-label="Open Profile Panel"
+          >
             <div className="w-8 h-8 rounded-full bg-neutral-950 border border-white/[0.08] flex items-center justify-center text-base font-bold text-cyan-400">
               😡
             </div>
-          </div>
+          </button>
 
         </div>
 

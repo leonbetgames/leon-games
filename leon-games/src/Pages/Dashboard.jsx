@@ -31,6 +31,7 @@ import { GAMES } from "../components/Dashboard/Games";
 import { GlobalHeader } from "../components/Dashboard/Header";
 import { NotificationsDrawer } from "../components/Dashboard/NotificationsDrawer";
 import { RewardsDrawer } from "../components/Dashboard/RewardsDrawer";
+import { ProfileDrawer } from "../components/Dashboard/ProfileDrawer";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -101,6 +102,9 @@ export default function LeonDashboard() {
         { id: 2, type: "system", text: "Security node verification completed.", time: "1h ago", unread: false },
         { id: 3, type: "wallet", text: "Deposit of ₦2,000.00 processed successfully.", time: "3h ago", unread: false }
     ]);
+
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+
 
     const [rewards, setRewards] = useState([
         { id: 1, title: "Daily Login Loyalty Boost", date: "Today, 8:05 AM", value: "+₦50.00", status: "claimed" },
@@ -317,11 +321,18 @@ export default function LeonDashboard() {
                 unreadCount={notifications.filter(n => n.unread).length}
                 onToggleNotifications={() => {
                     setIsNotificationsOpen(!isNotificationsOpen);
-                    setIsRewardsOpen(false); // Close other drawer
+                    setIsRewardsOpen(false);
+                    setIsProfileOpen(false);
                 }}
                 onToggleRewards={() => {
                     setIsRewardsOpen(!isRewardsOpen);
-                    setIsNotificationsOpen(false); // Close other drawer
+                    setIsNotificationsOpen(false);
+                    setIsProfileOpen(false);
+                }}
+                onToggleProfile={() => {
+                    setIsProfileOpen(!isProfileOpen);
+                    setIsNotificationsOpen(false);
+                    setIsRewardsOpen(false);
                 }}
             />
 
@@ -1274,6 +1285,21 @@ export default function LeonDashboard() {
                 onClose={() => setIsRewardsOpen(false)}
                 rewards={rewards}
                 totalRewardsClaimed={3450.00}
+            />
+            {/* --- MODAL 6: SLIDE-IN PROFILE DRAWER --- */}
+            <ProfileDrawer
+                isOpen={isProfileOpen}
+                onClose={() => setIsProfileOpen(false)}
+                username="UserPeer_99"
+                balanceBreakdown={{
+                    total: balance,
+                    deposited: 5000.00,
+                    gameEarnings: 4000.00,
+                    rewards: 3450.00
+                }}
+                wagerPoints={350} // Silver Rank
+                setIsDepositModalOpen={setIsDepositModalOpen}
+                onWithdrawRequest={() => triggerToast("Payout channels offline. Contact administrator.")}
             />
         </div>
     );
