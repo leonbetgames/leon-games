@@ -34,6 +34,7 @@ import { RewardsDrawer } from "../components/Dashboard/RewardsDrawer";
 import { ProfileDrawer } from "../components/Dashboard/ProfileDrawer";
 import { DuelArena } from "../components/Dashboard/DuelArena";
 import { PerformancePanel } from "../components/Dashboard/PerformancePanel";
+import { HistoryPanel } from "../components/Dashboard/HistoryPanel";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -371,15 +372,15 @@ export default function LeonDashboard() {
                         </button>
 
                         <button
-    onClick={() => setActiveTab("performance")}
-    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "performance"
-        ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
-        }`}
->
-    <TrendingUp size={14} className={activeTab === "performance" ? "text-emerald-400" : ""} />
-    <span>Performance</span>
-</button>
+                            onClick={() => setActiveTab("performance")}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "performance"
+                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                                }`}
+                        >
+                            <TrendingUp size={14} className={activeTab === "performance" ? "text-emerald-400" : ""} />
+                            <span>Performance</span>
+                        </button>
 
                         <button
                             onClick={() => setActiveTab("wallet")}
@@ -400,7 +401,7 @@ export default function LeonDashboard() {
                                 }`}
                         >
                             <History size={14} className={activeTab === "history" ? "text-emerald-400" : ""} />
-                            <span>Duel History</span>
+                            <span>History</span>
                         </button>
 
                         <button
@@ -476,17 +477,17 @@ export default function LeonDashboard() {
                         )}
 
                         {/* VIEW 2: DETAILED SYSTEM PERFORMANCE */}
-{activeTab === "performance" && (
-    <motion.div
-        key="performance-view"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        className="space-y-6"
-    >
-        <PerformancePanel currentBalance={balance} />
-    </motion.div>
-)}
+                        {activeTab === "performance" && (
+                            <motion.div
+                                key="performance-view"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="space-y-6"
+                            >
+                                <PerformancePanel currentBalance={balance} />
+                            </motion.div>
+                        )}
 
                         {/* VIEW 3: WALLET & TRANSACTION HISTORY */}
                         {activeTab === "wallet" && (
@@ -547,7 +548,7 @@ export default function LeonDashboard() {
                             </motion.div>
                         )}
 
-                        {/* VIEW 4: DUEL HISTORY */}
+                        {/* VIEW 4: SEGMENTED HISTORY HUB (DUELS & TRANSACTIONS) */}
                         {activeTab === "history" && (
                             <motion.div
                                 key="history-view"
@@ -556,47 +557,7 @@ export default function LeonDashboard() {
                                 exit={{ opacity: 0, y: -10 }}
                                 className="space-y-6"
                             >
-                                <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-6">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <div>
-                                            <h2 className="text-xs font-black tracking-widest text-neutral-400 uppercase mb-1">
-                                                Recent Duel History
-                                            </h2>
-                                            <p className="text-[11px] text-neutral-500">
-                                                Chronological report of past 1v1 matches resolved by the peer nodes.
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-3">
-                                        {MOCK_HISTORY.map((item) => (
-                                            <div
-                                                key={item.id}
-                                                className="p-4 rounded-xl bg-white/[0.01] border border-white/[0.04] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <span className={`w-2.5 h-2.5 rounded-full ${item.outcome === "win" ? "bg-emerald-500 animate-pulse" : "bg-neutral-700"}`} />
-                                                    <div>
-                                                        <span className="text-xs font-bold block text-white">{item.game}</span>
-                                                        <span className="text-[10px] text-neutral-500 block mt-0.5">
-                                                            vs {item.opponent} • id: {item.id}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex items-center gap-6 self-stretch sm:self-auto justify-between sm:justify-start">
-                                                    <span className="text-[11px] text-neutral-400 font-mono">{item.date}</span>
-                                                    <div className="text-right">
-                                                        <span className={`text-xs font-mono font-bold ${item.outcome === "win" ? "text-emerald-400" : "text-neutral-500"}`}>
-                                                            {item.outcome === "win" ? `+₦${item.delta.toLocaleString()}` : `-₦${Math.abs(item.delta).toLocaleString()}`}
-                                                        </span>
-                                                        <span className="text-[9px] text-neutral-600 block">Stake: ₦{item.stake.toLocaleString()}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                <HistoryPanel duelHistory={MOCK_HISTORY} />
                             </motion.div>
                         )}
 
@@ -654,12 +615,12 @@ export default function LeonDashboard() {
                     </button>
 
                     <button
-    onClick={() => setActiveTab("performance")}
-    className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "performance" ? "text-emerald-400" : "text-neutral-500"}`}
->
-    <TrendingUp size={16} />
-    <span className="text-[9px] font-bold uppercase tracking-wider">Performance</span>
-</button>
+                        onClick={() => setActiveTab("performance")}
+                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "performance" ? "text-emerald-400" : "text-neutral-500"}`}
+                    >
+                        <TrendingUp size={16} />
+                        <span className="text-[9px] font-bold uppercase tracking-wider">Performance</span>
+                    </button>
 
                     <button
                         onClick={() => setActiveTab("wallet")}
