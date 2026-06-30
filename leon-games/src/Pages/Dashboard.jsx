@@ -32,6 +32,7 @@ import { GlobalHeader } from "../components/Dashboard/Header";
 import { NotificationsDrawer } from "../components/Dashboard/NotificationsDrawer";
 import { RewardsDrawer } from "../components/Dashboard/RewardsDrawer";
 import { ProfileDrawer } from "../components/Dashboard/ProfileDrawer";
+import { DuelArena } from "../components/Dashboard/DuelArena";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -452,7 +453,7 @@ export default function LeonDashboard() {
 
                     <AnimatePresence mode="wait">
 
-                        {/* VIEW 1: ARENA (LOBBIES & SELECTORS) */}
+                        {/* VIEW 1: ARENA (RE-ARCHITECTED LOBBIES & CAROUSEL SELECTORS) */}
                         {activeTab === "arena" && (
                             <motion.div
                                 key="arena-view"
@@ -460,252 +461,16 @@ export default function LeonDashboard() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}
-                                className="space-y-6"
                             >
-
-                                {/* PRIVATE DUEL PANEL & QUICK MATCH CODE ENTRY */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                                    {/* Join Private Room section */}
-                                    <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between">
-                                        <div>
-                                            <h3 className="text-sm font-bold text-neutral-100 uppercase tracking-wider mb-1">
-                                                🔒 Direct Duel Code
-                                            </h3>
-                                            <p className="text-xs text-neutral-400 font-light mb-4">
-                                                Have a private lobby code from a peer? Load it below to initiate your match direct connection.
-                                            </p>
-                                        </div>
-
-                                        <div className="flex gap-2">
-                                            <input
-                                                type="text"
-                                                placeholder="Paste Duel Code (e.g., LEON-398282)"
-                                                value={customRoomInput}
-                                                onChange={(e) => setCustomRoomInput(e.target.value)}
-                                                className="flex-1 bg-white/[0.02] border border-white/[0.08] focus:border-emerald-500/50 rounded-xl px-3 py-2 text-xs font-mono outline-none transition-all placeholder:text-neutral-600 uppercase"
-                                            />
-                                            <button
-                                                onClick={handleLoadCustomCode}
-                                                className="bg-neutral-800 hover:bg-neutral-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all cursor-pointer flex items-center gap-1.5"
-                                            >
-                                                <Play size={12} fill="currentColor" />
-                                                <span>JOIN</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Create Custom Duel banner card */}
-                                    <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden">
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] rounded-full blur-2xl pointer-events-none" />
-                                        <div>
-                                            <h3 className="text-sm font-bold text-neutral-100 uppercase tracking-wider mb-1">
-                                                ⚔️ Host Custom Duel
-                                            </h3>
-                                            <p className="text-xs text-neutral-400 font-light mb-4">
-                                                Generate a custom duel workspace. Set your rules, define game types, and challenge a specific user.
-                                            </p>
-                                        </div>
-
-                                        <button
-                                            onClick={() => setIsCreateModalOpen(true)}
-                                            className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-[#050505] font-black text-xs py-2.5 rounded-xl transition-all shadow-[0_4px_15px_rgba(34,197,94,0.15)] flex items-center justify-center gap-1.5 cursor-pointer"
-                                        >
-                                            <Plus size={14} strokeWidth={3} />
-                                            <span>CREATE CHALLENGE ROOM</span>
-                                        </button>
-                                    </div>
-
-                                </div>
-
-                                {/* --- SECTOR 1: CORE GAME SELECTOR SCROLL --- */}
-                                <div className="space-y-3">
-                                    <div className="flex items-center justify-between">
-                                        <h2 className="text-xs font-black tracking-widest text-neutral-400 uppercase">
-                                            Select Skill Game [5 Games]
-                                        </h2>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-                                        {GAMES.map((game) => (
-                                            <div
-                                                key={game.id}
-                                                onClick={() => {
-                                                    setSelectedGameFilter(game.id);
-                                                    triggerToast(`Lobbies filtered to ${game.title}`);
-                                                }}
-                                                className={`group relative flex flex-col justify-between bg-[#0A0A0A] border rounded-2xl p-4 cursor-pointer transition-all duration-300 select-none overflow-hidden ${selectedGameFilter === game.id
-                                                    ? "border-emerald-500/40 shadow-[0_4px_20px_rgba(34,197,94,0.06)] scale-[1.02] bg-[#111111]"
-                                                    : "border-white/[0.06] hover:border-white/[0.12]"
-                                                    }`}
-                                            >
-                                                <div className="absolute top-0 right-0 w-20 h-20 bg-white/[0.01] rounded-full blur-xl pointer-events-none group-hover:scale-110 transition-transform" />
-
-                                                <div>
-                                                    <span className="text-2xl mb-3 block">{game.icon}</span>
-                                                    <h3 className="text-xs font-bold tracking-wide group-hover:text-emerald-400 transition-colors">
-                                                        {game.title}
-                                                    </h3>
-                                                    <span className="text-[10px] text-neutral-500 block font-light line-clamp-1 mt-0.5">
-                                                        {game.tagline}
-                                                    </span>
-                                                </div>
-
-                                                <div className="mt-4 flex items-center justify-between">
-                                                    <span className="text-[9px] font-mono text-neutral-400 bg-white/[0.04] px-1.5 py-0.5 rounded">
-                                                        {game.activeDuels} open
-                                                    </span>
-                                                    <span className="text-[9px] font-mono text-emerald-400 font-semibold">
-                                                        ₦{game.minStake}+
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* --- SECTOR 2: OPEN LOBBIES / ACTIVE DUELS CHANNELS --- */}
-                                <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl overflow-hidden">
-
-                                    {/* Header & Feed Controls */}
-                                    <div className="p-4 md:p-6 border-b border-white/[0.04] flex flex-col md:flex-row md:items-center justify-between gap-4">
-
-                                        <div>
-                                            <h2 className="text-xs font-black tracking-widest text-neutral-400 uppercase mb-1">
-                                                Active Duel Lobby Feed
-                                            </h2>
-                                            <p className="text-[11px] text-neutral-500">
-                                                100% deterministic mathematical matchups. Click Join to match and accept stakes.
-                                            </p>
-                                        </div>
-
-                                        {/* Filter controls */}
-                                        <div className="flex flex-wrap items-center gap-2">
-
-                                            {/* Search Bar Input */}
-                                            <div className="relative">
-                                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-600" size={12} />
-                                                <input
-                                                    type="text"
-                                                    placeholder="Search creator/id"
-                                                    value={searchQuery}
-                                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                                    className="bg-white/[0.02] border border-white/[0.08] focus:border-emerald-500/50 rounded-lg pl-8 pr-3 py-1.5 text-xs outline-none transition-all placeholder:text-neutral-600 w-44"
-                                                />
-                                            </div>
-
-                                            {/* Game Filter Button */}
-                                            {selectedGameFilter !== "all" && (
-                                                <button
-                                                    onClick={() => setSelectedGameFilter("all")}
-                                                    className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:text-white hover:border-transparent text-[10px] font-bold px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
-                                                >
-                                                    <span>Game: {selectedGameFilter.toUpperCase()}</span>
-                                                    <X size={10} />
-                                                </button>
-                                            )}
-
-                                            {/* Stake Level Filter Dropdown */}
-                                            <select
-                                                value={selectedStakeFilter}
-                                                onChange={(e) => setSelectedStakeFilter(e.target.value)}
-                                                className="bg-white/[0.02] border border-white/[0.08] hover:border-white/[0.12] rounded-lg px-2 py-1.5 text-xs outline-none text-neutral-300 transition-all cursor-pointer"
-                                            >
-                                                <option value="all" className="bg-[#0A0A0A] text-white">All Stakes</option>
-                                                <option value="low" className="bg-[#0A0A0A] text-white">&lt; ₦1,000</option>
-                                                <option value="high" className="bg-[#0A0A0A] text-white">₦1,000 +</option>
-                                            </select>
-
-                                        </div>
-                                    </div>
-
-                                    {/* Duel Feeds List Grid */}
-                                    <div className="divide-y divide-white/[0.04]">
-                                        <AnimatePresence initial={false}>
-                                            {filteredLobbies.length > 0 ? (
-                                                filteredLobbies.map((lobby) => {
-                                                    const { icon, title, color } = getGameVisuals(lobby.gameId);
-                                                    return (
-                                                        <motion.div
-                                                            key={lobby.id}
-                                                            initial={{ opacity: 0 }}
-                                                            animate={{ opacity: 1 }}
-                                                            exit={{ opacity: 0 }}
-                                                            className="p-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-white/[0.01] transition-colors"
-                                                        >
-                                                            {/* Left Profile details */}
-                                                            <div className="flex items-center gap-4">
-                                                                <div className={`w-11 h-11 rounded-xl bg-gradient-to-tr ${color} flex items-center justify-center text-xl shadow-lg shadow-black/40`}>
-                                                                    {icon}
-                                                                </div>
-                                                                <div>
-                                                                    <div className="flex items-center gap-2">
-                                                                        <span className="text-xs font-bold text-white">{lobby.creator}</span>
-                                                                        <span className="text-[10px] font-mono text-neutral-500 bg-white/[0.04] px-1.5 py-0.5 rounded">
-                                                                            {lobby.id}
-                                                                        </span>
-                                                                    </div>
-                                                                    <div className="flex items-center gap-1.5 text-[11px] text-neutral-400 mt-0.5">
-                                                                        <span>{title}</span>
-                                                                        <span className="text-neutral-600">•</span>
-                                                                        <span>created {lobby.timeCreated}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Center Stakes display details */}
-                                                            <div className="flex items-center gap-6 self-stretch sm:self-auto justify-between sm:justify-start">
-                                                                <div className="text-left sm:text-right">
-                                                                    <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest block leading-none">
-                                                                        STAKE
-                                                                    </span>
-                                                                    <span className="text-xs font-mono font-bold text-neutral-300">
-                                                                        ₦{lobby.stake.toLocaleString()}
-                                                                    </span>
-                                                                </div>
-
-                                                                <div className="text-left sm:text-right">
-                                                                    <span className="text-[9px] font-mono text-emerald-500 uppercase tracking-widest block leading-none font-bold">
-                                                                        WIN POT
-                                                                    </span>
-                                                                    <span className="text-xs font-mono font-black text-emerald-400">
-                                                                        ₦{lobby.pot.toLocaleString()}
-                                                                    </span>
-                                                                </div>
-
-                                                                <button
-                                                                    onClick={() => handleJoinLobby(lobby)}
-                                                                    className="bg-neutral-900 hover:bg-emerald-500 hover:text-[#050505] text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all flex items-center gap-1 border border-white/[0.06] hover:border-transparent cursor-pointer"
-                                                                >
-                                                                    <span>Accept Duel</span>
-                                                                    <ChevronRight size={14} />
-                                                                </button>
-                                                            </div>
-
-                                                        </motion.div>
-                                                    );
-                                                })
-                                            ) : (
-                                                <div className="p-12 text-center text-neutral-500 text-xs">
-                                                    <Activity className="mx-auto mb-3 opacity-30 text-emerald-400" size={32} />
-                                                    No active lobbies fit your search parameters.<br />
-                                                    <button
-                                                        onClick={() => {
-                                                            setSelectedGameFilter("all");
-                                                            setSelectedStakeFilter("all");
-                                                            setSearchQuery("");
-                                                        }}
-                                                        className="text-emerald-400 hover:underline mt-2 font-bold cursor-pointer"
-                                                    >
-                                                        Reset filters
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-
-                                </div>
-
+                                <DuelArena
+                                    games={GAMES}
+                                    lobbies={lobbies}
+                                    balance={balance}
+                                    handleJoinLobby={handleJoinLobby}
+                                    setIsCreateModalOpen={setIsCreateModalOpen}
+                                    setCreateGameId={setCreateGameId}
+                                    triggerToast={triggerToast}
+                                />
                             </motion.div>
                         )}
 
