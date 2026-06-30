@@ -33,6 +33,7 @@ import { NotificationsDrawer } from "../components/Dashboard/NotificationsDrawer
 import { RewardsDrawer } from "../components/Dashboard/RewardsDrawer";
 import { ProfileDrawer } from "../components/Dashboard/ProfileDrawer";
 import { DuelArena } from "../components/Dashboard/DuelArena";
+import { PerformancePanel } from "../components/Dashboard/PerformancePanel";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -370,15 +371,15 @@ export default function LeonDashboard() {
                         </button>
 
                         <button
-                            onClick={() => setActiveTab("leaderboards")}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "leaderboards"
-                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
-                                }`}
-                        >
-                            <Trophy size={14} className={activeTab === "leaderboards" ? "text-emerald-400" : ""} />
-                            <span>Leaderboards</span>
-                        </button>
+    onClick={() => setActiveTab("performance")}
+    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "performance"
+        ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+        }`}
+>
+    <TrendingUp size={14} className={activeTab === "performance" ? "text-emerald-400" : ""} />
+    <span>Performance</span>
+</button>
 
                         <button
                             onClick={() => setActiveTab("wallet")}
@@ -474,59 +475,18 @@ export default function LeonDashboard() {
                             </motion.div>
                         )}
 
-                        {/* VIEW 2: LEADERBOARDS */}
-                        {activeTab === "leaderboards" && (
-                            <motion.div
-                                key="leaderboards-view"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-6"
-                            >
-                                <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/[0.02] rounded-full blur-3xl pointer-events-none" />
-
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <Trophy className="text-amber-500" size={18} />
-                                        <h2 className="text-sm font-black tracking-widest text-neutral-400 uppercase">
-                                            Global Skill Champions
-                                        </h2>
-                                    </div>
-                                    <p className="text-xs text-neutral-400 font-light mb-6">
-                                        Top players ranked on verifiable skill-based net wins and matchmaking consistency. Updated hourly.
-                                    </p>
-
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-left text-xs text-neutral-400">
-                                            <thead>
-                                                <tr className="border-b border-white/[0.04] text-[10px] uppercase font-mono tracking-widest">
-                                                    <th className="py-3 px-4">Rank</th>
-                                                    <th className="py-3 px-4">Player ID</th>
-                                                    <th className="py-3 px-4 text-center">Wins</th>
-                                                    <th className="py-3 px-4 text-right">Net Profit</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-white/[0.02]">
-                                                {MOCK_LEADERBOARD.map((p) => (
-                                                    <tr key={p.rank} className="hover:bg-white/[0.01] transition-colors">
-                                                        <td className="py-3.5 px-4 font-mono font-bold">
-                                                            {p.rank === 1 ? "🏆 " : p.rank === 2 ? "🥈 " : p.rank === 3 ? "🥉 " : ""}
-                                                            {p.rank}
-                                                        </td>
-                                                        <td className="py-3.5 px-4 font-bold text-white flex items-center gap-2">
-                                                            <span>{p.avatar}</span>
-                                                            <span>{p.name}</span>
-                                                        </td>
-                                                        <td className="py-3.5 px-4 text-center font-mono font-medium text-neutral-300">{p.wins}</td>
-                                                        <td className="py-3.5 px-4 text-right font-mono font-bold text-emerald-400">₦{p.earnings.toLocaleString()}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
+                        {/* VIEW 2: DETAILED SYSTEM PERFORMANCE */}
+{activeTab === "performance" && (
+    <motion.div
+        key="performance-view"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        className="space-y-6"
+    >
+        <PerformancePanel currentBalance={balance} />
+    </motion.div>
+)}
 
                         {/* VIEW 3: WALLET & TRANSACTION HISTORY */}
                         {activeTab === "wallet" && (
@@ -694,12 +654,12 @@ export default function LeonDashboard() {
                     </button>
 
                     <button
-                        onClick={() => setActiveTab("leaderboards")}
-                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "leaderboards" ? "text-emerald-400" : "text-neutral-500"}`}
-                    >
-                        <Trophy size={16} />
-                        <span className="text-[9px] font-bold uppercase tracking-wider">Leaderboards</span>
-                    </button>
+    onClick={() => setActiveTab("performance")}
+    className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "performance" ? "text-emerald-400" : "text-neutral-500"}`}
+>
+    <TrendingUp size={16} />
+    <span className="text-[9px] font-bold uppercase tracking-wider">Performance</span>
+</button>
 
                     <button
                         onClick={() => setActiveTab("wallet")}
