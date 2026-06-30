@@ -1,18 +1,16 @@
 import React, { useState, useMemo } from "react";
 import { 
   TrendingUp, 
-  TrendingDown, 
   Calendar, 
   Percent, 
-  CircleDollarSign, 
-  Zap, 
   Award, 
   Clock, 
   Activity, 
-  Sliders, 
   ArrowUpRight, 
   ArrowDownRight,
-  RefreshCw
+  ShieldAlert,
+  Sword,
+  Coins
 } from "lucide-react";
 import { 
   AreaChart, 
@@ -32,13 +30,13 @@ import {
 // --- MOCK DATABASE GENERATORS FOR DIFFERENT TIME FRAMES ---
 const MOCK_TIME_DATA = {
   today: {
-    betsPlayed: 4, wins: 3, losses: 1, winRate: 75, totalStake: 4500, totalReturns: 7450, netProfit: 2950, roi: 65.5,
+    betsPlayed: 4, wins: 3, losses: 1, winRate: 75, totalStake: 4500, totalReturns: 8550, netProfit: 4050, roi: 90.0,
     trend: [
       { name: "09:00", profit: 0 },
       { name: "11:00", profit: 950 },
       { name: "14:00", profit: 450 },
       { name: "18:00", profit: 2450 },
-      { name: "21:00", profit: 2950 }
+      { name: "21:00", profit: 4050 }
     ],
     stakes: [
       { range: "₦100-₦500", count: 2 },
@@ -48,15 +46,15 @@ const MOCK_TIME_DATA = {
     ]
   },
   last7: {
-    betsPlayed: 28, wins: 18, losses: 10, winRate: 64.2, totalStake: 38200, totalReturns: 54100, netProfit: 15900, roi: 41.6,
+    betsPlayed: 28, wins: 18, losses: 10, winRate: 64.2, totalStake: 38200, totalReturns: 61560, netProfit: 23360, roi: 61.1,
     trend: [
       { name: "Mon", profit: 0 },
-      { name: "Tue", profit: 2400 },
-      { name: "Wed", profit: 1200 },
-      { name: "Thu", profit: 6800 },
-      { name: "Fri", profit: 9400 },
-      { name: "Sat", profit: 14200 },
-      { name: "Sun", profit: 15900 }
+      { name: "Tue", profit: 3400 },
+      { name: "Wed", profit: 1900 },
+      { name: "Thu", profit: 9800 },
+      { name: "Fri", profit: 14400 },
+      { name: "Sat", profit: 19200 },
+      { name: "Sun", profit: 23360 }
     ],
     stakes: [
       { range: "₦100-₦500", count: 12 },
@@ -66,12 +64,12 @@ const MOCK_TIME_DATA = {
     ]
   },
   last30: {
-    betsPlayed: 114, wins: 68, losses: 46, winRate: 59.6, totalStake: 142500, totalReturns: 198400, netProfit: 55900, roi: 39.2,
+    betsPlayed: 114, wins: 68, losses: 46, winRate: 59.6, totalStake: 142500, totalReturns: 232560, netProfit: 90060, roi: 63.2,
     trend: [
       { name: "Week 1", profit: 0 },
-      { name: "Week 2", profit: 12000 },
-      { name: "Week 3", profit: 29000 },
-      { name: "Week 4", profit: 55900 }
+      { name: "Week 2", profit: 22000 },
+      { name: "Week 3", profit: 49000 },
+      { name: "Week 4", profit: 90060 }
     ],
     stakes: [
       { range: "₦100-₦500", count: 48 },
@@ -81,14 +79,14 @@ const MOCK_TIME_DATA = {
     ]
   },
   alltime: {
-    betsPlayed: 482, wins: 281, losses: 201, winRate: 58.3, totalStake: 684000, totalReturns: 912400, netProfit: 228400, roi: 33.3,
+    betsPlayed: 482, wins: 281, losses: 201, winRate: 58.3, totalStake: 684000, totalReturns: 961020, netProfit: 277020, roi: 40.5,
     trend: [
       { name: "Jan", profit: 0 },
-      { name: "Feb", profit: 34000 },
-      { name: "Mar", profit: 62000 },
-      { name: "Apr", profit: 112000 },
-      { name: "May", profit: 184000 },
-      { name: "Jun", profit: 228400 }
+      { name: "Feb", profit: 44000 },
+      { name: "Mar", profit: 82000 },
+      { name: "Apr", profit: 142000 },
+      { name: "May", profit: 214000 },
+      { name: "Jun", profit: 277020 }
     ],
     stakes: [
       { range: "₦100-₦500", count: 182 },
@@ -104,16 +102,14 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
   const [customStart, setCustomStart] = useState("");
   const [customEnd, setCustomStartEnd] = useState("");
 
-  // Dynamically resolve datasets based on chosen range
   const currentData = useMemo(() => {
     if (timeRange === "custom") {
-      // Simulate dynamic custom calculations
       return {
-        betsPlayed: 12, wins: 7, losses: 5, winRate: 58.3, totalStake: 15000, totalReturns: 21500, netProfit: 6500, roi: 43.3,
+        betsPlayed: 12, wins: 7, losses: 5, winRate: 58.3, totalStake: 15000, totalReturns: 23940, netProfit: 8940, roi: 59.6,
         trend: [
           { name: "Start Range", profit: 0 },
-          { name: "Midpoint", profit: 3400 },
-          { name: "End Range", profit: 6500 }
+          { name: "Midpoint", profit: 4400 },
+          { name: "End Range", profit: 8940 }
         ],
         stakes: [
           { range: "₦100-₦500", count: 5 },
@@ -126,32 +122,31 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
     return MOCK_TIME_DATA[timeRange] || MOCK_TIME_DATA.last30;
   }, [timeRange]);
 
-  // Pie chart variables
+  // Wins vs Losses allocation
   const pieData = [
     { name: "Wins", value: currentData.wins, color: "#10B981" },
     { name: "Losses", value: currentData.losses, color: "#F43F5E" },
-    { name: "Voided", value: Math.floor(currentData.betsPlayed * 0.05), color: "#3B82F6" },
-    { name: "Pending", value: 1, color: "#F59E0B" }
+    { name: "Refunded/Draws", value: Math.floor(currentData.betsPlayed * 0.05), color: "#3B82F6" }
   ];
 
-  // Betting Activity distribution variables
+  // Duel Formats allocation (Challenges Hosted/Created vs Directly Accepted)
   const barData = [
-    { name: "Mon", preMatch: 4, live: 2 },
-    { name: "Tue", preMatch: 3, live: 5 },
-    { name: "Wed", preMatch: 6, live: 1 },
-    { name: "Thu", preMatch: 2, live: 3 },
-    { name: "Fri", preMatch: 8, live: 6 },
-    { name: "Sat", preMatch: 12, live: 10 },
-    { name: "Sun", preMatch: 9, live: 8 }
+    { name: "Mon", hosted: 4, accepted: 2 },
+    { name: "Tue", hosted: 3, accepted: 5 },
+    { name: "Wed", hosted: 6, accepted: 1 },
+    { name: "Thu", hosted: 2, accepted: 3 },
+    { name: "Fri", hosted: 8, accepted: 6 },
+    { name: "Sat", hosted: 12, accepted: 10 },
+    { name: "Sun", hosted: 9, accepted: 8 }
   ];
 
-  // Odds Range Distribution variables
-  const oddsData = [
-    { range: "1.01-1.30", frequency: 45 },
-    { range: "1.31-1.70", frequency: 128 },
-    { range: "1.71-2.20", frequency: 210 },
-    { range: "2.21-3.50", frequency: 82 },
-    { range: "3.51-5.00+", frequency: 17 }
+  // Game Mode Engagement Frequency Distribution
+  const gameModeData = [
+    { name: "RPS", duels: 182, fill: "#F59E0B" },
+    { name: "Shootout", duels: 98, fill: "#06B6D4" },
+    { name: "Reaction", duels: 124, fill: "#10B981" },
+    { name: "TicTacToe", duels: 54, fill: "#8B5CF6" },
+    { name: "Prediction", duels: 24, fill: "#EC4899" }
   ];
 
   return (
@@ -190,7 +185,7 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
           </div>
         </div>
 
-        {/* Custom Input Block */}
+        {/* Custom Date Inputs */}
         {timeRange === "custom" && (
           <div className="p-4 rounded-xl bg-white/[0.01] border border-white/[0.04] flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
@@ -209,7 +204,6 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
               />
             </div>
             <button
-              onClick={() => triggerToast && triggerToast("Calculated Custom Performance metrics.")}
               className="py-1.5 px-4 bg-cyan-400 hover:bg-cyan-500 text-neutral-950 text-[10px] font-mono font-bold uppercase rounded-lg transition-colors cursor-pointer"
             >
               Request Average
@@ -220,11 +214,11 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
         {/* Dynamic Period Summary Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 pt-2">
           {[
-            { label: "Bets Played", value: currentData.betsPlayed, format: "int" },
+            { label: "Duels Played", value: currentData.betsPlayed, format: "int" },
             { label: "Wins", value: currentData.wins, format: "int", color: "text-emerald-400" },
             { label: "Losses", value: currentData.losses, format: "int", color: "text-rose-500" },
             { label: "Win Rate", value: `${currentData.winRate}%`, format: "str" },
-            { label: "Total Stake", value: `₦${currentData.totalStake.toLocaleString()}`, format: "str" },
+            { label: "Total Stakes", value: `₦${currentData.totalStake.toLocaleString()}`, format: "str" },
             { label: "Total Returns", value: `₦${currentData.totalReturns.toLocaleString()}`, format: "str" },
             { label: "Net P/L", value: `₦${currentData.netProfit.toLocaleString()}`, format: "str", color: currentData.netProfit >= 0 ? "text-emerald-400" : "text-rose-500" },
             { label: "ROI", value: `${currentData.roi}%`, format: "str", color: "text-cyan-400" }
@@ -246,7 +240,7 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/[0.01] rounded-full blur-xl pointer-events-none" />
           <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest block mb-1">
-            Current Balance
+            Current balance
           </span>
           <span className="text-xl font-mono font-black text-white block">
             ₦{currentBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -282,7 +276,7 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
           </span>
           <div className="flex items-center gap-1 mt-2 text-[10px] text-neutral-500 font-mono">
             <Award size={12} className="text-cyan-400" />
-            <span>Active Peak Multiplier</span>
+            <span>Multiplier Active</span>
           </div>
         </div>
 
@@ -296,7 +290,7 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
           </span>
           <div className="flex items-center gap-1 mt-2 text-[10px] text-neutral-500 font-mono">
             <Clock size={12} className="text-rose-500" />
-            <span>Losses Mitigated (Skill)</span>
+            <span>Draw mitigation: active</span>
           </div>
         </div>
 
@@ -305,7 +299,7 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
       {/* --- CHARTS GRID --- */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Trend Area Chart (Line chart showing profit over time) */}
+        {/* Trend Area Chart (Cumulative net profits) */}
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5 lg:col-span-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
@@ -345,7 +339,7 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
           <div className="flex items-center gap-2 mb-4">
             <Activity className="text-cyan-400" size={14} />
             <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black">
-              Win vs Loss Distribution
+              Resolved Duels Breakdown
             </span>
           </div>
 
@@ -372,7 +366,6 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
               </PieChart>
             </ResponsiveContainer>
 
-            {/* Inner Percentage Tag */}
             <div className="absolute text-center">
               <span className="text-xs text-neutral-500 block uppercase font-mono leading-none">Win rate</span>
               <span className="text-lg font-mono font-black text-emerald-400 mt-1 block">
@@ -381,13 +374,11 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
             </div>
           </div>
 
-          {/* Custom Labels List */}
-          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-white/[0.04] text-[10px] font-mono">
+          <div className="grid grid-cols-3 gap-1 pt-4 border-t border-white/[0.04] text-[9px] font-mono">
             {pieData.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded" style={{ backgroundColor: item.color }} />
-                <span className="text-neutral-500">{item.name}:</span>
-                <span className="text-neutral-200 font-bold">{item.value}</span>
+              <div key={idx} className="flex flex-col items-center justify-center bg-white/[0.01] border border-white/[0.03] py-1 rounded">
+                <span className="text-neutral-500 block">{item.name}</span>
+                <span className="font-bold mt-0.5" style={{ color: item.color }}>{item.value}</span>
               </div>
             ))}
           </div>
@@ -395,13 +386,13 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
 
       </div>
 
-      {/* --- SECOND CHARTS ROW: ACTIVITY & DISTRIBUTIONS --- */}
+      {/* --- SECOND CHARTS ROW: ACTIVITY & DISTRIBUTION --- */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        {/* Chart A: Betting Activity (Bar Chart) */}
+        {/* Chart A: Lobby Formats (Hosted vs Accepted) */}
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5">
           <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black block mb-4">
-            Betting Activity (Singles vs Accum)
+            Duel Formats (Created vs Accepted)
           </span>
 
           <div className="h-48 w-full">
@@ -410,17 +401,17 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
                 <XAxis dataKey="name" stroke="#444" fontSize={9} tickLine={false} />
                 <YAxis stroke="#444" fontSize={9} tickLine={false} />
                 <Tooltip contentStyle={{ backgroundColor: "#0A0A0A", borderColor: "#222" }} />
-                <Bar dataKey="preMatch" fill="#06B6D4" radius={[4, 4, 0, 0]} name="Singles" />
-                <Bar dataKey="live" fill="#10B981" radius={[4, 4, 0, 0]} name="Live Bets" />
+                <Bar dataKey="hosted" fill="#06B6D4" radius={[4, 4, 0, 0]} name="Created Lobbies" />
+                <Bar dataKey="accepted" fill="#10B981" radius={[4, 4, 0, 0]} name="Accepted Lobbies" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Chart B: Stake Distribution (Histogram) */}
+        {/* Chart B: Stake Distribution Histogram */}
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5">
           <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black block mb-4">
-            Stake Distribution Histogram
+            Stake Size Distribution (₦)
           </span>
 
           <div className="h-48 w-full">
@@ -429,25 +420,25 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
                 <XAxis dataKey="range" stroke="#444" fontSize={9} tickLine={false} />
                 <YAxis stroke="#444" fontSize={9} tickLine={false} />
                 <Tooltip contentStyle={{ backgroundColor: "#0A0A0A", borderColor: "#222" }} />
-                <Bar dataKey="count" fill="#8B5CF6" radius={[4, 4, 0, 0]} name="Bets Count" />
+                <Bar dataKey="count" fill="#8B5CF6" radius={[4, 4, 0, 0]} name="Duels count" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Chart C: Odds Distribution (Bar chart showing odds ranges) */}
+        {/* Chart C: Game Mode Engagement */}
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5">
           <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black block mb-4">
-            Odds Frequency Distribution
+            Engagement by Game Mode (Resolved Duels)
           </span>
 
           <div className="h-48 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={oddsData}>
-                <XAxis dataKey="range" stroke="#444" fontSize={9} tickLine={false} />
+              <BarChart data={gameModeData}>
+                <XAxis dataKey="name" stroke="#444" fontSize={9} tickLine={false} />
                 <YAxis stroke="#444" fontSize={9} tickLine={false} />
                 <Tooltip contentStyle={{ backgroundColor: "#0A0A0A", borderColor: "#222" }} />
-                <Bar dataKey="frequency" fill="#EC4899" radius={[4, 4, 0, 0]} name="Bets Placed" />
+                <Bar dataKey="duels" radius={[4, 4, 0, 0]} name="Duels Count" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -460,20 +451,23 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
         
         {/* Metrics List A: Advanced Performance Statistics */}
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5 space-y-4">
-          <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black block border-b border-white/[0.04] pb-2">
-            Performance Analytics Ledger
-          </span>
+          <div className="flex items-center gap-1.5 border-b border-white/[0.04] pb-2">
+            <Coins size={14} className="text-emerald-400" />
+            <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black">
+              Performance Analytics Ledger
+            </span>
+          </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-xs">
             {[
-              { label: "Average Bet Size", value: "₦2,450" },
-              { label: "Largest Wager", value: "₦15,000" },
-              { label: "Largest Win", value: "₦28,500", color: "text-emerald-400" },
+              { label: "Average Stake Size", value: "₦2,450" },
+              { label: "Largest Stake Wagered", value: "₦15,000" },
+              { label: "Largest Payout Won", value: "₦28,500", color: "text-emerald-400" },
               { label: "Largest Loss", value: "-₦5,000", color: "text-rose-500" },
-              { label: "Average Odds Played", value: "1.82" },
-              { label: "Highest Odds Won", value: "4.85", color: "text-emerald-400" },
-              { label: "Lowest Odds Won", value: "1.12" },
-              { label: "Average Profit / Bet", value: "₦845", color: "text-emerald-400" }
+              { label: "Platform Fee Rate", value: "5%" },
+              { label: "Total Platform Fee Paid", value: "₦6,840" },
+              { label: "Match Return Multiplier", value: "1.90x" },
+              { label: "Average Net Profit / Duel", value: "₦845", color: "text-emerald-400" }
             ].map((stat, idx) => (
               <div key={idx} className="flex justify-between items-center py-1">
                 <span className="text-neutral-500">{stat.label}:</span>
@@ -485,20 +479,23 @@ export function PerformancePanel({ currentBalance = 12450.00 }) {
 
         {/* Metrics List B: Betting Statistics */}
         <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-5 space-y-4">
-          <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black block border-b border-white/[0.04] pb-2">
-            Betting Statistics &amp; Formats
-          </span>
+          <div className="flex items-center gap-1.5 border-b border-white/[0.04] pb-2">
+            <Sword size={14} className="text-cyan-400" />
+            <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black">
+              Duel Mode Engagement Matrix
+            </span>
+          </div>
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-xs">
             {[
-              { label: "Total Singles", value: "348" },
-              { label: "Total Accumulators (Parlays)", value: "112" },
-              { label: "Total System Bets", value: "22" },
-              { label: "Pre-match Bets", value: "298" },
-              { label: "Live Bets", value: "184" },
-              { label: "Cash Out Bets Placed", value: "48" },
-              { label: "Successful Cash Outs", value: "42", color: "text-emerald-400" },
-              { label: "Failed Cash Outs", value: "6", color: "text-rose-500" }
+              { label: "Total Challenges Created", value: "348" },
+              { label: "Total Challenges Accepted", value: "134" },
+              { label: "Rock Paper Scissors", value: "182" },
+              { label: "Penalty Shootout", value: "98" },
+              { label: "Reaction Speed", value: "124" },
+              { label: "Tic Tac Toe", value: "54" },
+              { label: "Number Prediction", value: "24" },
+              { label: "Aborted / Draw Duels", value: "18", color: "text-rose-500" }
             ].map((stat, idx) => (
               <div key={idx} className="flex justify-between items-center py-1">
                 <span className="text-neutral-500">{stat.label}:</span>
