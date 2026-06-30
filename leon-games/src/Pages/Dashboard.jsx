@@ -24,7 +24,8 @@ import {
     LogOut,
     ChevronRight,
     AlertTriangle,
-    Info
+    Info,
+    Lock 
 } from "lucide-react";
 
 import { GAMES } from "../components/Dashboard/Games";
@@ -35,6 +36,7 @@ import { ProfileDrawer } from "../components/Dashboard/ProfileDrawer";
 import { DuelArena } from "../components/Dashboard/DuelArena";
 import { PerformancePanel } from "../components/Dashboard/PerformancePanel";
 import { HistoryPanel } from "../components/Dashboard/HistoryPanel";
+import { SettingsPanel } from "../components/Dashboard/SettingsPanel";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -384,15 +386,15 @@ export default function LeonDashboard() {
                         </button>
 
                         <button
-                            onClick={() => setActiveTab("wallet")}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "wallet"
-                                ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-                                : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
-                                }`}
-                        >
-                            <Wallet size={14} className={activeTab === "wallet" ? "text-emerald-400" : ""} />
-                            <span>My Wallet</span>
-                        </button>
+    onClick={() => setActiveTab("settings")}
+    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "settings"
+        ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+        }`}
+>
+    <Lock size={14} className={activeTab === "settings" ? "text-emerald-400" : ""} />
+    <span>Settings</span>
+</button>
 
                         <button
                             onClick={() => setActiveTab("history")}
@@ -490,64 +492,18 @@ export default function LeonDashboard() {
                             </motion.div>
                         )}
 
-                        {/* VIEW 3: WALLET & TRANSACTION HISTORY */}
-                        {activeTab === "wallet" && (
-                            <motion.div
-                                key="wallet-view"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-6"
-                            >
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-                                    {/* Account Balance card details */}
-                                    <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-6 md:col-span-2">
-                                        <h2 className="text-xs font-black tracking-widest text-neutral-400 uppercase mb-4">
-                                            My Balance Details
-                                        </h2>
-                                        <div className="flex items-baseline gap-2.5 mb-6">
-                                            <span className="text-3xl font-mono font-black text-emerald-400">
-                                                ₦{balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                            </span>
-                                            <span className="text-xs text-neutral-500 font-medium">NGN Available</span>
-                                        </div>
-
-                                        <div className="flex gap-3">
-                                            <button
-                                                onClick={() => setIsDepositModalOpen(true)}
-                                                className="bg-emerald-500 hover:bg-emerald-600 text-[#050505] font-extrabold text-xs px-6 py-3 rounded-xl transition-all cursor-pointer shadow-[0_4px_15px_rgba(34,197,94,0.15)] flex-1 text-center"
-                                            >
-                                                Deposit Cash
-                                            </button>
-                                            <button
-                                                onClick={() => triggerToast("Payout channels offline. Contact administrator for direct withdrawal.")}
-                                                className="bg-neutral-900 hover:bg-neutral-800 border border-white/[0.06] text-white font-extrabold text-xs px-6 py-3 rounded-xl transition-all cursor-pointer flex-1 text-center"
-                                            >
-                                                Request Payout
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Operational Information Banner */}
-                                    <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between">
-                                        <div className="space-y-2">
-                                            <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-400">
-                                                <Info size={14} />
-                                                <span>ZERO RISK SYSTEM</span>
-                                            </div>
-                                            <p className="text-[11px] text-neutral-400 leading-relaxed font-light">
-                                                Leon Games utilizes dynamic 1v1 multi-player state synchronization. Capital is locked on match validation, ensuring direct payouts directly to players with zero platform custody delays.
-                                            </p>
-                                        </div>
-                                        <span className="text-[10px] font-mono text-neutral-500 block mt-4 border-t border-white/[0.04] pt-3">
-                                            100% Guaranteed Settlement
-                                        </span>
-                                    </div>
-
-                                </div>
-                            </motion.div>
-                        )}
+                        {/* VIEW 3: SYSTEM AND ACCOUNT SETTINGS */}
+{activeTab === "settings" && (
+    <motion.div
+        key="settings-view"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        className="space-y-6"
+    >
+        <SettingsPanel triggerToast={triggerToast} />
+    </motion.div>
+)}
 
                         {/* VIEW 4: SEGMENTED HISTORY HUB (DUELS & TRANSACTIONS) */}
                         {activeTab === "history" && (
