@@ -48,7 +48,7 @@ export function GlobalHeader({
         {/* Action Widgets, Notifications, Rewards & Wallet */}
         <div className="flex items-center gap-3">
           
-          {/* REWARDS SLIDE-IN TRIGGER */}
+          {/* REWARDS SLIDE-IN TRIGGER 
           <button
             onClick={onToggleRewards}
             className="p-2 rounded-xl bg-[#0A0A0A] border border-white/[0.06] text-neutral-400 hover:text-cyan-400 hover:border-cyan-500/20 transition-all cursor-pointer"
@@ -56,6 +56,7 @@ export function GlobalHeader({
           >
             <Award size={16} />
           </button>
+          */}
 
           {/* NOTIFICATIONS SLIDE-IN TRIGGER */}
           <button
