@@ -53,11 +53,12 @@ const MOCK_LEADERBOARD = [
     { rank: 5, name: "Abubakar_K", wins: 73, earnings: 62000, avatar: "🟣" },
 ];
 
+// Locate MOCK_HISTORY at the top of LeonDashboard.jsx and update dates:
 const MOCK_HISTORY = [
-    { id: "M-4019", game: "Rock Paper Scissors", opponent: "Eze_R", outcome: "win", stake: 1000, delta: 950, date: "Today, 2:40 PM" },
-    { id: "M-3981", game: "Reaction Challenge", opponent: "Chioma_X", outcome: "loss", stake: 500, delta: -500, date: "Today, 11:15 AM" },
-    { id: "M-3820", game: "Penalty Shootout", opponent: "Tunde_Dev", outcome: "win", stake: 2000, delta: 1900, date: "Yesterday, 8:22 PM" },
-    { id: "M-3712", game: "Tic Tac Toe", opponent: "Ngozi_V", outcome: "win", stake: 500, delta: 475, date: "2 days ago" },
+    { id: "M-4019", game: "Rock Paper Scissors", opponent: "Eze_R", outcome: "win", stake: 1000, delta: 950, date: "Monday, June 29, 2026 at 2:40 PM" },
+    { id: "M-3981", game: "Reaction Challenge", opponent: "Chioma_X", outcome: "loss", stake: 500, delta: -500, date: "Monday, June 29, 2026 at 11:15 AM" },
+    { id: "M-3820", game: "Penalty Shootout", opponent: "Tunde_Dev", outcome: "win", stake: 2000, delta: 1900, date: "Sunday, June 28, 2026 at 8:22 PM" },
+    { id: "M-3712", game: "Tic Tac Toe", opponent: "Ngozi_V", outcome: "win", stake: 500, delta: 475, date: "Friday, June 26, 2026 at 4:32 PM" },
 ];
 
 export default function LeonDashboard() {
