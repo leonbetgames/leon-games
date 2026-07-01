@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { 
   User, 
   Mail, 
@@ -12,7 +12,6 @@ import {
   FileText, 
   CheckCircle2, 
   ShieldAlert,
-  Send,
   Compass
 } from "lucide-react";
 
@@ -27,6 +26,7 @@ export function SettingsPanel({ triggerToast }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [is2FAEnabled, setIs2FAEnabled] = useState(false);
 
   const handleUpdateAccount = (e) => {
     e.preventDefault();
@@ -59,6 +59,16 @@ export function SettingsPanel({ triggerToast }) {
     }
     if (type === "email") setIsEmailVerified(true);
     if (type === "phone") setIsPhoneVerified(true);
+  };
+
+  const handle2FAToggle = () => {
+    setIs2FAEnabled((prev) => {
+      const nextValue = !prev;
+      if (triggerToast) {
+        triggerToast(`🛡️ 2FA authentication ${nextValue ? "enabled" : "disabled"} successfully.`);
+      }
+      return nextValue;
+    });
   };
 
   return (
@@ -220,6 +230,27 @@ export function SettingsPanel({ triggerToast }) {
             >
               Update Security Password
             </button>
+
+            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3.5 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-500">
+                  2FA Authentication
+                </p>
+                <p className="text-[11px] text-neutral-400">
+                  {is2FAEnabled ? "Extra login protection is enabled" : "Add a second verification step"}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handle2FAToggle}
+                aria-pressed={is2FAEnabled}
+                className={`relative inline-flex h-7 w-14 shrink-0 items-center rounded-full transition-all ${is2FAEnabled ? "bg-cyan-400" : "bg-white/[0.12]"}`}
+              >
+                <span
+                  className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-all ${is2FAEnabled ? "translate-x-7" : "translate-x-1"}`}
+                />
+              </button>
+            </div>
           </form>
         </div>
 

@@ -37,6 +37,7 @@ import { DuelArena } from "../components/Dashboard/DuelArena";
 import { PerformancePanel } from "../components/Dashboard/PerformancePanel";
 import { HistoryPanel } from "../components/Dashboard/HistoryPanel";
 import { SettingsPanel } from "../components/Dashboard/SettingsPanel";
+import { ReferralsPanel } from "../components/Dashboard/ReferralsPanel";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -386,17 +387,6 @@ export default function LeonDashboard() {
                         </button>
 
                         <button
-    onClick={() => setActiveTab("settings")}
-    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "settings"
-        ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
-        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
-        }`}
->
-    <Lock size={14} className={activeTab === "settings" ? "text-emerald-400" : ""} />
-    <span>Settings</span>
-</button>
-
-                        <button
                             onClick={() => setActiveTab("history")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "history"
                                 ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
@@ -406,7 +396,16 @@ export default function LeonDashboard() {
                             <History size={14} className={activeTab === "history" ? "text-emerald-400" : ""} />
                             <span>History</span>
                         </button>
-
+<button
+    onClick={() => setActiveTab("settings")}
+    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "settings"
+        ? "bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 text-white"
+        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+        }`}
+>
+    <Lock size={14} className={activeTab === "settings" ? "text-emerald-400" : ""} />
+    <span>Settings</span>
+</button>
                         <button
                             onClick={() => setActiveTab("referrals")}
                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all cursor-pointer ${activeTab === "referrals"
@@ -418,25 +417,6 @@ export default function LeonDashboard() {
                             <span>Refer & Earn</span>
                         </button>
                     </nav>
-
-                    {/* Quick Stats sidebar widget */}
-                    <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-4 flex flex-col gap-3.5 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/[0.02] rounded-full blur-xl pointer-events-none" />
-                        <div className="flex items-center gap-2">
-                            <TrendingUp size={14} className="text-emerald-400" />
-                            <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase font-black">Your Performance</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 text-center">
-                            <div className="bg-white/[0.02] border border-white/[0.04] p-2.5 rounded-xl">
-                                <span className="text-[10px] text-neutral-500 block">WIN RATE</span>
-                                <span className="text-sm font-mono font-extrabold text-neutral-200">58.3%</span>
-                            </div>
-                            <div className="bg-white/[0.02] border border-white/[0.04] p-2.5 rounded-xl">
-                                <span className="text-[10px] text-neutral-500 block">TOTAL POTS</span>
-                                <span className="text-sm font-mono font-extrabold text-emerald-400">24</span>
-                            </div>
-                        </div>
-                    </div>
 
                     {/* Promotional Card referral program */}
                     <div className="bg-gradient-to-br from-neutral-950 to-neutral-900 border border-white/[0.06] rounded-2xl p-4 flex flex-col gap-3 relative overflow-hidden">
@@ -518,41 +498,22 @@ export default function LeonDashboard() {
                             </motion.div>
                         )}
 
-                        {/* VIEW 5: REFERRALS */}
-                        {activeTab === "referrals" && (
-                            <motion.div
-                                key="referrals-view"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="space-y-6"
-                            >
-                                <div className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/[0.01] rounded-full blur-[100px] pointer-events-none" />
-
-                                    <h2 className="text-xs font-black tracking-widest text-neutral-400 uppercase mb-2">
-                                        Referral Dashboard
-                                    </h2>
-                                    <p className="text-xs text-neutral-400 leading-relaxed font-light mb-6 max-w-lg">
-                                        Build passive capital stream. Copy your unique partner link below. Every single friend who deposits and resolves their first victory awards you <strong className="text-emerald-400 font-semibold">₦500.00</strong> instantly.
-                                    </p>
-
-                                    <div className="bg-white/[0.02] border border-white/[0.06] p-4 rounded-xl flex flex-col md:flex-row items-center gap-4 justify-between max-w-xl">
-                                        <div className="text-center md:text-left">
-                                            <span className="text-[10px] font-mono text-neutral-500 block uppercase">YOUR CODE</span>
-                                            <span className="text-sm font-mono font-black tracking-wider text-neutral-200">LEON_PARTNER_9012</span>
-                                        </div>
-                                        <button
-                                            onClick={() => copyToClipboard("https://leongames.com/ref/LEON_PARTNER_9012")}
-                                            className="bg-neutral-900 hover:bg-neutral-800 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl border border-white/[0.08] transition-all flex items-center gap-1.5 cursor-pointer"
-                                        >
-                                            <Copy size={12} />
-                                            <span>COPY LINK</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
+                        {/* VIEW 5: INTEGRATED REFERRALS PANEL WITH SOCIAL SHARES */}
+{activeTab === "referrals" && (
+    <motion.div
+        key="referrals-view"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        className="space-y-6"
+    >
+        <ReferralsPanel 
+            referralCode="LEON_PARTNER_9012"
+            referralUrl="https://leongames.com/ref/LEON_PARTNER_9012"
+            triggerToast={triggerToast}
+        />
+    </motion.div>
+)}
 
                     </AnimatePresence>
 
@@ -561,50 +522,49 @@ export default function LeonDashboard() {
             </div>
 
             {/* --- MOBILE STICKY BOTTOM BAR NAVIGATION --- */}
-            {isMobile && (
-                <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#0A0A0A] border-t border-white/[0.06] px-4 py-3 flex justify-around items-center shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
-                    <button
-                        onClick={() => setActiveTab("arena")}
-                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "arena" ? "text-emerald-400" : "text-neutral-500"}`}
-                    >
-                        <Sword size={16} />
-                        <span className="text-[9px] font-bold uppercase tracking-wider">Arena</span>
-                    </button>
+{isMobile && (
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#0A0A0A] border-t border-white/[0.06] px-4 py-3 flex justify-around items-center shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+        <button
+            onClick={() => setActiveTab("arena")}
+            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "arena" ? "text-emerald-400" : "text-neutral-500"}`}
+        >
+            <Sword size={16} />
+            <span className="text-[9px] font-bold uppercase tracking-wider">Arena</span>
+        </button>
 
-                    <button
-                        onClick={() => setActiveTab("performance")}
-                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "performance" ? "text-emerald-400" : "text-neutral-500"}`}
-                    >
-                        <TrendingUp size={16} />
-                        <span className="text-[9px] font-bold uppercase tracking-wider">Performance</span>
-                    </button>
+        <button
+            onClick={() => setActiveTab("performance")}
+            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "performance" ? "text-emerald-400" : "text-neutral-500"}`}
+        >
+            <TrendingUp size={16} />
+            <span className="text-[9px] font-bold uppercase tracking-wider">Performance</span>
+        </button>
 
-                    <button
-                        onClick={() => setActiveTab("wallet")}
-                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "wallet" ? "text-emerald-400" : "text-neutral-500"}`}
-                    >
-                        <Wallet size={16} />
-                        <span className="text-[9px] font-bold uppercase tracking-wider">Wallet</span>
-                    </button>
+        <button
+            onClick={() => setActiveTab("settings")}
+            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "settings" ? "text-emerald-400" : "text-neutral-500"}`}
+        >
+            <Lock size={16} />
+            <span className="text-[9px] font-bold uppercase tracking-wider">Settings</span>
+        </button>
 
-                    <button
-                        onClick={() => setActiveTab("history")}
-                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "history" ? "text-emerald-400" : "text-neutral-500"}`}
-                    >
-                        <History size={16} />
-                        <span className="text-[9px] font-bold uppercase tracking-wider">History</span>
-                    </button>
+        <button
+            onClick={() => setActiveTab("history")}
+            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "history" ? "text-emerald-400" : "text-neutral-500"}`}
+        >
+            <History size={16} />
+            <span className="text-[9px] font-bold uppercase tracking-wider">History</span>
+        </button>
 
-                    <button
-                        onClick={() => setActiveTab("referrals")}
-                        className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "referrals" ? "text-emerald-400" : "text-neutral-500"}`}
-                    >
-                        <Gift size={16} />
-                        <span className="text-[9px] font-bold uppercase tracking-wider">Invites</span>
-                    </button>
-                </div>
-            )}
-
+        <button
+            onClick={() => setActiveTab("referrals")}
+            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "referrals" ? "text-emerald-400" : "text-neutral-500"}`}
+        >
+            <Gift size={16} />
+            <span className="text-[9px] font-bold uppercase tracking-wider">Invites</span>
+        </button>
+    </div>
+)}
 
             {/* --- MODAL 1: CREATE CUSTOM DUEL CHALLENGE --- */}
             <AnimatePresence>

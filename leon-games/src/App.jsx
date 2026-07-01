@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/discover" element={<Discover />} />
+        <Route path="/" element={<Discover />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/terms" element={<Terms_Conditions />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
