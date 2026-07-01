@@ -29,7 +29,7 @@ export function DuelArena({
   triggerToast
 }) {
   // --- SUB-NAVIGATION STATE ---
-  const [activeSubTab, setActiveSubTab] = useState("join-host"); // "join-host" | "active-duels"
+  const [activeSubTab, setActiveSubTab] = useState("join-host"); // "join-host" | "host-duel" | "active-duels"
 
   // --- CAROUSEL STATES ---
   const [carouselIdx, setCarouselIdx] = useState(0);
@@ -126,7 +126,7 @@ export function DuelArena({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-6">
 
       {/* --- SUB-TAB SEGMENTED NAVIGATION CONTROLLER --- */}
       <div className="flex items-center justify-between bg-[#0A0A0A] border border-white/[0.04] p-1.5 rounded-2xl">
@@ -138,8 +138,25 @@ export function DuelArena({
             }`}
           >
             <Zap size={14} />
-            <span className="relative z-10">Join &amp; Host</span>
+            <span className="relative z-10">Direct Duel</span>
             {activeSubTab === "join-host" && (
+              <motion.div
+                layoutId="arena-sub-indicator"
+                className="absolute inset-0 bg-white/[0.02] border border-white/[0.06] rounded-xl"
+                transition={{ type: "spring", stiffness: 380, damping: 28 }}
+              />
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveSubTab("host-duel")}
+            className={`relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex-1 sm:flex-none cursor-pointer ${
+              activeSubTab === "host-duel" ? "text-amber-400" : "text-neutral-500 hover:text-neutral-300"
+            }`}
+          >
+            <Sword size={14} />
+            <span className="relative z-10">Host Duel</span>
+            {activeSubTab === "host-duel" && (
               <motion.div
                 layoutId="arena-sub-indicator"
                 className="absolute inset-0 bg-white/[0.02] border border-white/[0.06] rounded-xl"
@@ -155,7 +172,7 @@ export function DuelArena({
             }`}
           >
             <Globe size={14} />
-            <span className="relative z-10">Active Duels</span>
+            <span className="relative z-10">Active Duel</span>
             {activeSubTab === "active-duels" && (
               <motion.div
                 layoutId="arena-sub-indicator"
@@ -185,10 +202,10 @@ export function DuelArena({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="grid gap-6 lg:grid-cols-[1fr_420px]"
+            className="w-full flex flex-col gap-6"
           >
             {/* PORTAL A: DIRECT LOBBY SECURITY TUNNEL */}
-            <div className="order-1 lg:order-1 bg-[#0A0A0A] border border-white/[0.06] rounded-3xl p-6 flex flex-col justify-between space-y-5 relative overflow-hidden">
+            <div className="w-full bg-[#0A0A0A] border border-white/[0.06] rounded-3xl p-6 flex flex-col justify-between space-y-5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/[0.01] rounded-full blur-xl pointer-events-none" />
 
               <div className="flex items-center justify-between">
@@ -281,17 +298,28 @@ export function DuelArena({
               </div>
             </div>
 
-            {/* PORTAL B: SWIPE-BASED SKILL DESTRUCT CAROUSEL */}
-            <div className="order-2 lg:order-2 space-y-3">
+          </motion.div>
+        )}
+
+        {/* TAB 2: HOST DUEL SUITE */}
+        {activeSubTab === "host-duel" && (
+          <motion.div
+            key="host-duel-suite"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.15 }}
+            className="w-full flex flex-col gap-6"
+          >
+            <div className="w-full space-y-3">
               <h2 className="text-xs font-black tracking-widest text-neutral-400 uppercase">
                 Host Custom Duel [Swipe Games]
               </h2>
 
-              <div className="relative bg-[#0A0A0A] border border-white/[0.06] rounded-3xl p-6 overflow-hidden flex flex-col items-center">
+              <div className="w-full relative bg-[#0A0A0A] border border-white/[0.06] rounded-3xl p-6 overflow-hidden flex flex-col items-center">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.03)_0%,transparent_70%)] pointer-events-none" />
 
                 <div className="relative w-full max-w-md h-[260px] flex items-center justify-center">
-                  
                   <div className="absolute inset-0 flex items-center justify-between pointer-events-none">
                     <div className="w-1/6 h-[75%] rounded-2xl bg-neutral-950/60 border border-white/[0.02] opacity-20 transform -translate-x-4 scale-90 overflow-hidden hidden sm:block">
                       <div className="w-full h-full bg-gradient-to-tr from-neutral-800 to-neutral-900 flex items-center justify-center text-3xl">
@@ -371,13 +399,12 @@ export function DuelArena({
                     />
                   ))}
                 </div>
-
               </div>
             </div>
           </motion.div>
         )}
 
-        {/* TAB 2: ACTIVE DUELS FEED */}
+        {/* TAB 3: ACTIVE DUELS FEED */}
         {activeSubTab === "active-duels" && (
           <motion.div
             key="active-duels-feed"
@@ -385,7 +412,7 @@ export function DuelArena({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="bg-[#0A0A0A] border border-white/[0.06] rounded-2xl overflow-hidden"
+            className="w-full bg-[#0A0A0A] border border-white/[0.06] rounded-2xl overflow-hidden"
           >
             {/* Advanced Filters Block */}
             <div className="p-5 border-b border-white/[0.04] space-y-4">

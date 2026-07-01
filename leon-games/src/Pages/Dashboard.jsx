@@ -448,6 +448,7 @@ export default function LeonDashboard() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}
+                                className="flex min-h-[calc(100vh-180px)] w-full items-center justify-center"
                             >
                                 <DuelArena
                                     games={GAMES}
