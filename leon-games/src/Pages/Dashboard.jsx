@@ -38,6 +38,8 @@ import { PerformancePanel } from "../components/Dashboard/PerformancePanel";
 import { HistoryPanel } from "../components/Dashboard/HistoryPanel";
 import { SettingsPanel } from "../components/Dashboard/SettingsPanel";
 import { ReferralsPanel } from "../components/Dashboard/ReferralsPanel";
+import { LeaderboardModal } from "../components/Dashboard/LeaderboardModal";
+import { ChatbotModal } from "../components/Dashboard/ChatbotModal";
 
 // --- INITIAL MOCK LOBBIES ---
 const INITIAL_LOBBIES = [
@@ -362,7 +364,7 @@ export default function LeonDashboard() {
             <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex gap-8 h-[calc(100vh-72px)] max-h-[calc(100vh-72px)] overflow-hidden">
 
                 {/* --- PERSISTENT LEFT SIDEBAR (DESKTOP) --- */}
-                <aside className="hidden lg:flex flex-col w-64 shrink-0 gap-6 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <aside className="hidden lg:flex flex-col justify-center w-64 shrink-0 gap-6 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                     <nav className="flex flex-col gap-1 bg-[#0A0A0A] border border-white/[0.06] rounded-2xl p-3">
                         <button
                             onClick={() => setActiveTab("arena")}
@@ -435,8 +437,8 @@ export default function LeonDashboard() {
 
                 {/* --- MAIN CORE PANEL WORKSPACE --- */}
                 <main className="flex-1 min-w-0 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-
-                    <AnimatePresence mode="wait">
+                    <div className="w-full py-6">
+                        <AnimatePresence mode="wait">
 
                         {/* VIEW 1: ARENA (RE-ARCHITECTED LOBBIES & CAROUSEL SELECTORS) */}
                         {activeTab === "arena" && (
@@ -515,8 +517,8 @@ export default function LeonDashboard() {
     </motion.div>
 )}
 
-                    </AnimatePresence>
-
+                        </AnimatePresence>
+                    </div>
                 </main>
 
             </div>
@@ -540,13 +542,7 @@ export default function LeonDashboard() {
             <span className="text-[9px] font-bold uppercase tracking-wider">Performance</span>
         </button>
 
-        <button
-            onClick={() => setActiveTab("settings")}
-            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "settings" ? "text-emerald-400" : "text-neutral-500"}`}
-        >
-            <Lock size={16} />
-            <span className="text-[9px] font-bold uppercase tracking-wider">Settings</span>
-        </button>
+       
 
         <button
             onClick={() => setActiveTab("history")}
@@ -554,6 +550,14 @@ export default function LeonDashboard() {
         >
             <History size={16} />
             <span className="text-[9px] font-bold uppercase tracking-wider">History</span>
+        </button>
+
+         <button
+            onClick={() => setActiveTab("settings")}
+            className={`flex flex-col items-center gap-1 cursor-pointer ${activeTab === "settings" ? "text-emerald-400" : "text-neutral-500"}`}
+        >
+            <Lock size={16} />
+            <span className="text-[9px] font-bold uppercase tracking-wider">Settings</span>
         </button>
 
         <button
@@ -931,6 +935,13 @@ export default function LeonDashboard() {
                     />
                 )}
             </AnimatePresence>
+
+            {/* --- FLOATING BALL & CENTERED LEADERBOARD MODAL --- */}
+            <LeaderboardModal />
+
+            
+            {/* --- FLOATING BALL & SLIDING CHATBOT MODAL --- */}
+            <ChatbotModal triggerToast={triggerToast} />
         </div>
     );
 }
